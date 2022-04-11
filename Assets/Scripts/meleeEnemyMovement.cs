@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class meleeEnemyMovement : MonoBehaviour
 {
-    [SerializeField] private float jumpForce = 50f;
+    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float playerBulletForce = 10f;
     public float followSpeed;
     public float lineOfSite;
     //public Animator animator;
@@ -12,7 +13,11 @@ public class meleeEnemyMovement : MonoBehaviour
     private Transform player;
     public Rigidbody2D rb;
 
+    Coroutine slowDownCoroutine;
+
     public bool canJump;
+    public bool findPlayer;
+    public bool slowDown;
 
     //public AudioSource audioSource;
 
@@ -44,49 +49,84 @@ public class meleeEnemyMovement : MonoBehaviour
         //audioSource.Play();
     }
 
-    private void CheckGrounded()
+    private void checkJump()
     {
-        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, 1 << 3);
+        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, 1 << 2);
 
-        Debug.Log(grounedRay.collider, gameObject);
+
+        //Debug.Log(grounedRay.collider.gameObject);
 
         if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<enemyCanJump>() != null)
         {
-            canJump = true;
+            Debug.Log(grounedRay.collider.gameObject);
+
+            if (player.position.y > transform.position.y)
+            {
+                canJump = true;
+            }
         }
         else
         {
             canJump = false;
         }
     }
-    public void OnDrawGizmos()
+    private void checkPlayer()
     {
-        Color myCol;
+        RaycastHit2D[] sightRay = Physics2D.RaycastAll(transform.position, player.position - transform.position, 5f, (1 << 6 | 1 << 0));
 
-        if (canJump == true)
+        if (Vector3.Distance(player.position, transform.position) <= 5.0f && sightRay[0].collider.gameObject.GetComponent<playerMovement>() != null)
         {
-            myCol = Color.green;
+            findPlayer = true;
         }
         else
         {
-            myCol = Color.red;
+            findPlayer = false;
+        }
+    }
+    public void OnDrawGizmos()
+    {
+        Color myCol1;
+        Color myCol2;
+
+        if (canJump == true)
+        {
+            myCol1 = Color.green;
+        }
+        else
+        {
+            myCol1 = Color.red;
         }
 
-        Debug.DrawRay(transform.position, Vector2.down, myCol);
-    }
+        if (findPlayer == true)
+        {
+            myCol2 = Color.green;
+        }
+        else
+        {
+            myCol2 = Color.red;
+        }
 
+        Debug.DrawRay(transform.position, Vector2.down, myCol1);
+        Debug.DrawRay(transform.position, player.position - transform.position, myCol2);
+    }
 
     public void movementControl()
     {
         float distanceToPlayer = 0;
         distanceToPlayer = player.position.x - transform.position.x;
-        rb.velocity = new Vector2(Mathf.Sign(distanceToPlayer) * followSpeed, rb.velocity.y);
+        
+        if (!slowDown)
+        {
+            rb.velocity = new Vector2(Mathf.Sign(distanceToPlayer) * followSpeed, rb.velocity.y);
+        }
 
         if (canJump)
         {
             rb.AddForce(new Vector2(0f, jumpForce));
         }
-        CheckGrounded();
+        checkJump();
+
+        ChangeDirection();
     }
     protected void ChangeDirection()
     {
@@ -101,6 +141,26 @@ public class meleeEnemyMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        if (collision.gameObject.tag == "Bullet")
+        {
+
+            //particle.Emit(5);
+            //Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
+            slowDown = true;
+            slowDownCoroutine = StartCoroutine(slowDownDebuff(1f));
+            rb.AddForce((transform.position - collision.gameObject.transform.position) * playerBulletForce);
+            collision.gameObject.SetActive(false);
+        }
+    }
+    private IEnumerator slowDownDebuff(float wait)
+    {
+        //Make sure that the death particle will be shown
+        yield return new WaitForSeconds(wait);
+        slowDown = false;
+    }
 
     private void FixedUpdate()
     {
@@ -110,16 +170,14 @@ public class meleeEnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        checkPlayer();
         //string clipName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-        float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
-        if (distanceFromPlayer < lineOfSite)
+        //float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
+        if (findPlayer) //distanceFromPlayer < lineOfSite
         {
-            rb.isKinematic = false;
             //transform.position = Vector2.MoveTowards(this.transform.position, player.position, followSpeed * Time.deltaTime);
             movementControl();
-
-        }   
+        }
     }
 }

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 250961501}
   - component: {fileID: 250961504}
   - component: {fileID: 250961503}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Isometric Diamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 476721860}
   - component: {fileID: 476721862}
   - component: {fileID: 476721863}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 791782978}
   - component: {fileID: 791782977}
   - component: {fileID: 791782980}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Floor (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,7 +595,7 @@ GameObject:
   - component: {fileID: 1209495609}
   - component: {fileID: 1209495613}
   - component: {fileID: 1209495612}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: meleeEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,10 +615,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 10
+  playerBulletForce: 30
   followSpeed: 3
   lineOfSite: 5
   rb: {fileID: 0}
   canJump: 0
+  findPlayer: 0
+  slowDown: 0
 --- !u!212 &1209495610
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -661,7 +664,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.14847445, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -699,7 +702,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: 26089e999ffd5c84dae0ec184b518310, type: 2}
@@ -787,7 +790,7 @@ GameObject:
   - component: {fileID: 1574507988}
   - component: {fileID: 1574507987}
   - component: {fileID: 1574507990}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1042,7 +1045,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077008560}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.16, y: 0.56, z: 0}
+  m_LocalPosition: {x: -7.18, y: 0.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

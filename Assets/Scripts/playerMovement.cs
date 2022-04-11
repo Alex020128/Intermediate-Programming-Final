@@ -47,12 +47,13 @@ public class playerMovement : MonoBehaviour
 
 	private void CheckGrounded()
 	{
-		RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, 1 << 3);
+		RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, 1 << 6);
 
-		Debug.Log(grounedRay.collider,gameObject);
+		//Debug.Log(grounedRay.collider.gameObject);
 
 		if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<jumpObject>() != null)
 		{
+			Debug.Log(grounedRay.collider.gameObject);
 			isGrounded = true;
 		}
 		else
