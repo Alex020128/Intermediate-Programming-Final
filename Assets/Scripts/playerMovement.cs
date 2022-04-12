@@ -77,7 +77,6 @@ public class playerMovement : MonoBehaviour
 		Debug.DrawRay(transform.position, Vector2.down, myCol);
 	}
 
-
 	public void Move(float move,bool jump)
 	{
 		//only control the player if grounded or airControl is turned on
@@ -108,7 +107,6 @@ public class playerMovement : MonoBehaviour
 			// Add a vertical force to the player.
 			isGrounded = false;
 			rb.AddForce(new Vector2(0f, jumpForce));
-		} else { 
 		}
 	}
 
@@ -122,7 +120,6 @@ public class playerMovement : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
-
 
 	private void playerControl()
     {

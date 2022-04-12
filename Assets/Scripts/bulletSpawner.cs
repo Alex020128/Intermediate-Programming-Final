@@ -8,7 +8,7 @@ public class bulletSpawner : MonoBehaviour
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
-    private float spawnPerSecond = 0.5f;
+    private float spawnPerSecond = 1f;
     [SerializeField]
     private float spawnTimer;
     [SerializeField]
@@ -30,7 +30,7 @@ public class bulletSpawner : MonoBehaviour
     private void Start()
     {
         //Spawn a pool of bullets at top of the screen
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             GameObject newBullet = Instantiate(prefabToSpawn, transform.position, Quaternion.identity, this.gameObject.transform);
             bullets.Add(newBullet);

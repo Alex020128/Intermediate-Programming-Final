@@ -12,12 +12,32 @@ public class Bullet : MonoBehaviour
     public float lifeTimer;
     public float moveSpeed = 13;
 
-    //Target position
+    [SerializeField] private float playerBulletForce = 70f;
+
+    public Rigidbody2D rb;
+ //Target position
     public Vector3 targetRotation;
 
     private void Awake()
     {
         lifeTimer = 3.0f;
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("233");
+
+            //particle.Emit(5);
+            //Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
+            //slowDown = true;
+            //slowDownCoroutine = StartCoroutine(slowDownDebuff(1f));
+            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(rb.velocity.normalized * playerBulletForce, ForceMode2D.Impulse);
+            this.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -28,8 +48,9 @@ public class Bullet : MonoBehaviour
 
             if (lifeTimer <= 2.5f)
             {
-                //Move along the latest rotation(towards the player)
-                transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+            //Move along the latest rotation(towards the player)
+
+            rb.velocity = transform.right * moveSpeed;
                 transform.parent = null;
                 if (lifeTimer <= 0)
                 {    
