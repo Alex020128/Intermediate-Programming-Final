@@ -9,7 +9,6 @@ public class slowDown : MonoBehaviour
     
     public Rigidbody2D rb;
 
-
     Coroutine speedDownCoroutine;
     Coroutine frozenCoroutine;
 

@@ -149,7 +149,7 @@ public class meleeEnemyMovement : MonoBehaviour
         distanceToPlayer = edgeDetector.position.x - transform.position.x;
         float nextSpeedX = Mathf.Sign(distanceToPlayer) * patrolSpeed;
 
-        if (rb.velocity.magnitude <= 1 && canPatrol && GetComponent<slowDown>().frozen == false)
+        if (rb.velocity.magnitude <= 1 && canPatrol && GetComponent<slowDown>().frozen == false && GetComponent<trapped>().gotTrapped == false)
         {
             rb.velocity += new Vector2(nextSpeedX, rb.velocity.y);
           

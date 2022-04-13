@@ -26,6 +26,7 @@ public class playerMovement : MonoBehaviour
 	public bool jump = false;
 	public bool shootBullet;
 	public bool shootCannon;
+	public bool placeTrap;
 
 	private void Awake()
 	{
@@ -139,6 +140,12 @@ public class playerMovement : MonoBehaviour
 		{
 			GameObject.Find("rmbBullet").GetComponent<iceCannonSpawner>().shootBullet();
 			shootCannon = true;
+		}
+		
+		if (Input.GetKeyDown(KeyCode.Q) && placeTrap == false && isGrounded == true) // && gameManager.Instance.death == false
+		{
+			GameObject.Find("qKey").GetComponent<trapSpawner>().placeTrap();
+			placeTrap = true;
 		}
 	}
 }

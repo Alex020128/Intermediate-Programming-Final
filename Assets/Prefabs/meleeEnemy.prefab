@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1838123804274954565}
   - component: {fileID: 1838123804274954564}
   - component: {fileID: 238168694049213656}
+  - component: {fileID: 8929916695573408142}
   m_Layer: 1
   m_Name: meleeEnemy
   m_TagString: Enemy
@@ -162,6 +163,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedDown: 0
   frozen: 0
+  rb: {fileID: 0}
+--- !u!114 &8929916695573408142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838123804274954560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c8b6038c905aa14f9dd1171fae4b23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gotTrapped: 0
   rb: {fileID: 0}
 --- !u!1 &3673061482881900202
 GameObject:

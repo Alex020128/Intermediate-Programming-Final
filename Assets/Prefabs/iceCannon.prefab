@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9066935234135470622}
   m_Layer: 0
   m_Name: iceCannon
-  m_TagString: Bullet
+  m_TagString: Attacks
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -42,7 +42,7 @@ public class iceCannon : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-        if (collision != null && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Bullet")
+        if (collision != null && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Attacks")
         {
             this.gameObject.SetActive(false);
         }
