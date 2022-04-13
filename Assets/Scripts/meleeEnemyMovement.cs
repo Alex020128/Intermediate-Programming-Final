@@ -14,13 +14,10 @@ public class meleeEnemyMovement : MonoBehaviour
     public Transform edgeDetector;
     public Rigidbody2D rb;
 
-    Coroutine slowDownCoroutine;
-
     public bool canJump;
     public bool canPatrol;
     public bool movingRight;
     public bool findPlayer;
-    public bool slowDown;
 
     //public AudioSource audioSource;
 
@@ -150,9 +147,9 @@ public class meleeEnemyMovement : MonoBehaviour
     {
         float distanceToPlayer = 0;
         distanceToPlayer = edgeDetector.position.x - transform.position.x;
-        float nextSpeedX = Mathf.Sign(distanceToPlayer) * followSpeed;
+        float nextSpeedX = Mathf.Sign(distanceToPlayer) * patrolSpeed;
 
-        if (rb.velocity.magnitude <= 3 && canPatrol)
+        if (rb.velocity.magnitude <= 1 && canPatrol && GetComponent<slowDown>().frozen == false)
         {
             rb.velocity += new Vector2(nextSpeedX, rb.velocity.y);
           
@@ -163,6 +160,7 @@ public class meleeEnemyMovement : MonoBehaviour
             if (movingRight)
             {
                 transform.rotation = Quaternion.Euler(0, -180, 0);
+
                 movingRight = false;
             }
             else
@@ -180,7 +178,7 @@ public class meleeEnemyMovement : MonoBehaviour
         float distanceToPlayer = 0;
         distanceToPlayer = player.position.x - transform.position.x;
         float nextSpeedX = Mathf.Sign(distanceToPlayer) * followSpeed;
-        if (rb.velocity.magnitude <= 3) {
+        if (rb.velocity.magnitude <= 3 && GetComponent<slowDown>().frozen == false) {
             rb.velocity += new Vector2(nextSpeedX, rb.velocity.y);
         }
        
@@ -201,12 +199,6 @@ public class meleeEnemyMovement : MonoBehaviour
         }
     }
     
-    private IEnumerator slowDownDebuff(float wait)
-    {
-        //Make sure that the death particle will be shown
-        yield return new WaitForSeconds(wait);
-        slowDown = false;
-    }
     private void FixedUpdate()
     {
         canJump = false;

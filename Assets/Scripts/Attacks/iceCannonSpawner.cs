@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bulletSpawner : MonoBehaviour
+public class iceCannonSpawner : MonoBehaviour
 {
     //Bullet stats
     [SerializeField]
@@ -20,8 +20,6 @@ public class bulletSpawner : MonoBehaviour
             return bullets;
         }
     }
-    public float bulletDamage;
-    public float missileDamage;
 
     //SFX for bullet
     public AudioSource audioSource;
@@ -30,7 +28,7 @@ public class bulletSpawner : MonoBehaviour
     private void Start()
     {
         //Spawn a pool of bullets at top of the screen
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 1; i++)
         {
             GameObject newBullet = Instantiate(prefabToSpawn, transform.position, Quaternion.identity, this.gameObject.transform);
             bullets.Add(newBullet);
@@ -42,10 +40,10 @@ public class bulletSpawner : MonoBehaviour
 
     //public void bulletSFX()
     //{
-        //Play the bullet SFX
-        //audioSource.Stop();
-        //audioSource.clip = bulletSound;
-        //audioSource.Play();
+    //Play the bullet SFX
+    //audioSource.Stop();
+    //audioSource.clip = bulletSound;
+    //audioSource.Play();
     //}
 
     public void shootBullet()
@@ -57,9 +55,9 @@ public class bulletSpawner : MonoBehaviour
             {
                 //bulletSFX();
                 bullets[i].SetActive(true);
-                bullets[i].GetComponent<Bullet>().lifeTimer = 3.0f;
+                bullets[i].GetComponent<iceCannon>().lifeTimer = 3.0f;
                 bullets[i].transform.position = transform.position;
-                bullets[i].transform.parent = GameObject.Find("lmbBullet").transform;
+                bullets[i].transform.parent = GameObject.Find("rmbBullet").transform;
                 break;
             }
         }
@@ -73,10 +71,10 @@ public class bulletSpawner : MonoBehaviour
         {
             spawnTimer += spawnPerSecond;
 
-            GameObject.Find("Player").GetComponent<playerMovement>().shootBullet = false;
+            GameObject.Find("Player").GetComponent<playerMovement>().shootCannon = false;
         }
 
         //Let bullet "spawn" around the player's chest
-        transform.position = new Vector2(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y + 0.4f);
+        transform.position = new Vector2(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y);
     }
 }

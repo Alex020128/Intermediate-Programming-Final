@@ -19,20 +19,13 @@ public class playerMovement : MonoBehaviour
 	[Header("Events")]
 	[Space]
 
-	public UnityEvent OnLandEvent;
-
-	[System.Serializable]
-	public class BoolEvent : UnityEvent<bool> { }
-
-	public BoolEvent OnCrouchEvent;
-
-
 	public float horizontalMove = 0f;
 	public float moveSpeed = 10f;
 
 	//Player bools
 	public bool jump = false;
 	public bool shootBullet;
+	public bool shootCannon;
 
 	private void Awake()
 	{
@@ -86,7 +79,6 @@ public class playerMovement : MonoBehaviour
 			Vector3 targetVelocity = new Vector2(move * 10f, rb.velocity.y);
 			// And then smoothing it out and applying it to the character
 			rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref currentVelocity, movementSmoothing);
-			//rb.velocity = new Vector2(move * moveSpeed, rb.velocity.y);
 
 			// If the input is moving the player right and the player is facing left...
 			if (move > 0 && !facingRight)
@@ -141,6 +133,12 @@ public class playerMovement : MonoBehaviour
 		{
 			GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().shootBullet();
 			shootBullet = true;
+		}
+
+		if (Input.GetMouseButton(1) && shootCannon == false) // && gameManager.Instance.death == false
+		{
+			GameObject.Find("rmbBullet").GetComponent<iceCannonSpawner>().shootBullet();
+			shootCannon = true;
 		}
 	}
 }
