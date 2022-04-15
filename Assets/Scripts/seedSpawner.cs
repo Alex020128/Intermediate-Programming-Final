@@ -8,7 +8,7 @@ public class seedSpawner : MonoBehaviour
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
-    private float spawnPerSecond = 10f;
+    private float spawnPerSecond = 20f;
     [SerializeField]
     private float spawnTimer;
     [SerializeField]
@@ -27,11 +27,13 @@ public class seedSpawner : MonoBehaviour
 
     private void Start()
     {
+        spawnPerSecond = 20f;
+
         //Spawn a pool of bullets at top of the screen
         for (int i = 0; i < 3; i++)
         {
-            GameObject newBullet = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
-            seeds.Add(newBullet);
+            GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
+            seeds.Add(newSeed);
             //seeds[i].SetActive(false);
            
             bool canSpawn = false;
@@ -40,10 +42,12 @@ public class seedSpawner : MonoBehaviour
 
             while (!canSpawn)
             {
-                seeds[i].transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
-                RaycastHit2D grounedRay = Physics2D.Raycast(seeds[i].transform.position, Vector2.down, 0.5f, 1 << 6);
+                newSeed.transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
+                RaycastHit2D grounedRay = Physics2D.Raycast(newSeed.transform.position, Vector2.down, 0.5f, 1 << 6);
+                RaycastHit2D ceilingRay = Physics2D.Raycast(newSeed.transform.position, Vector2.up, 0.5f, 1 << 6);
 
-                if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<jumpObject>() != null)
+                if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<jumpObject>() != null
+                                                && ceilingRay.collider == null)
                 {
                     Debug.Log(grounedRay.collider.gameObject);
                     canSpawn = true;
@@ -70,37 +74,36 @@ public class seedSpawner : MonoBehaviour
     public void spawnSeed()
     {
         //let one of the waiting bullets to be active
-        for (int i = 0; i < seeds.Count; i++)
+        if(seeds.Count < 10)
         {
-            if (!seeds[i].activeInHierarchy)
+            GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
+            seeds.Add(newSeed);
+            //seeds[i].SetActive(false);
+           
+            bool canSpawn = false;
+
+            //Debug.Log(grounedRay.collider.gameObject);
+
+            while (!canSpawn)
             {
-                //bulletSFX();
-                seeds[i].SetActive(true);
-                seeds[i].transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
-                bool canSpawn = false;
- 
-                //Debug.Log(grounedRay.collider.gameObject);
+                newSeed.transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
+                RaycastHit2D grounedRay = Physics2D.Raycast(newSeed.transform.position, Vector2.down, 0.5f, 1 << 6);
+                RaycastHit2D ceilingRay = Physics2D.Raycast(newSeed.transform.position, Vector2.up, 0.5f, 1 << 6);
 
-                while (!canSpawn)
+                if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<jumpObject>() != null
+                                                && ceilingRay.collider == null)
                 {
-                    seeds[i].transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
-                    RaycastHit2D grounedRay = Physics2D.Raycast(seeds[i].transform.position, Vector2.down, 0.5f, 1 << 6);
-
-                    if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<jumpObject>() != null)
-                    {
-                        Debug.Log(grounedRay.collider.gameObject);
-                        canSpawn = true;
-                    }
-                    else
-                    {
-                        //seeds[i].transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
-                        canSpawn = false;
-                    }
+                    Debug.Log(grounedRay.collider.gameObject);
+                    canSpawn = true;
                 }
-
-                break;
+                else
+                {
+                    //seeds[i].transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
+                    canSpawn = false;
+                }
             }
         }
+ 
     }
 
     void Update()

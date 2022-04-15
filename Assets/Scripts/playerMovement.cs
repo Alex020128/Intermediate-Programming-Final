@@ -16,8 +16,7 @@ public class playerMovement : MonoBehaviour
 	private bool facingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 currentVelocity = Vector3.zero;
 
-	[Header("Events")]
-	[Space]
+	public GameObject pet;
 
 	public float horizontalMove = 0f;
 	public float moveSpeed = 10f;
@@ -31,7 +30,12 @@ public class playerMovement : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
-	}
+
+		pet = GameObject.Find("Pet");
+
+		jumpForce = 650f;
+		moveSpeed = 10f;
+}
 
 	private void FixedUpdate()
 	{
@@ -77,7 +81,7 @@ public class playerMovement : MonoBehaviour
 		if (isGrounded || airControl)
 		{
 			// Move the character by finding the target velocity
-			Vector3 targetVelocity = new Vector2(move * 10f, rb.velocity.y);
+			Vector3 targetVelocity = new Vector2(move * moveSpeed, rb.velocity.y);
 			// And then smoothing it out and applying it to the character
 			rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref currentVelocity, movementSmoothing);
 
@@ -128,6 +132,17 @@ public class playerMovement : MonoBehaviour
     private void Update()
     {
 		playerControl();
+
+        if (pet.GetComponent<petMovement>().carrying)
+        {
+			jumpForce = 500f;
+			moveSpeed = 5f;
+		} else
+        {
+			jumpForce = 650f;
+			moveSpeed = 10f;
+		}
+
 
 		//Use LMB and RMB to shoot arcane missiles and cast a magic circle (bullet and missile)
 		if (Input.GetMouseButton(0) && shootBullet == false) // && gameManager.Instance.death == false

@@ -39,7 +39,11 @@ public class Bullet : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-        if (collision != null && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Attacks")
+        if (collision != null && collision.gameObject.tag != "Enemy"
+                              && collision.gameObject.tag != "Player"
+                              && collision.gameObject.tag != "Attacks"
+                              && collision.gameObject.tag != "Pet"
+                              && collision.gameObject.tag != "Seed")
         {
             this.gameObject.SetActive(false);
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class meleeEnemyMovement : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class meleeEnemyMovement : MonoBehaviour
     //public Animator animator;
 
     private Transform player;
+    private Transform pet;
     public Transform edgeDetector;
     public Rigidbody2D rb;
 
@@ -18,6 +20,7 @@ public class meleeEnemyMovement : MonoBehaviour
     public bool canPatrol;
     public bool movingRight;
     public bool findPlayer;
+    public bool findPet;
 
     //public AudioSource audioSource;
 
@@ -33,6 +36,7 @@ public class meleeEnemyMovement : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").transform;
+        pet = GameObject.Find("Pet").transform;
         edgeDetector = transform.Find("edgeDetector").transform;
         //audioSource = GetComponent<AudioSource>();
     }
@@ -98,6 +102,19 @@ public class meleeEnemyMovement : MonoBehaviour
         else
         {
             findPlayer = false;
+        }
+    }
+    private void checkPet()
+    {
+        RaycastHit2D[] sightRay = Physics2D.RaycastAll(transform.position, pet.position - transform.position, lineOfSite, (1 << 6 | 1 << 0));
+
+        if (Vector3.Distance(pet.position, transform.position) <= lineOfSite && sightRay[0].collider.gameObject.GetComponent<petMovement>() != null)
+        {
+            findPet = true;
+        }
+        else
+        {
+            findPet = false;
         }
     }
     public void OnDrawGizmos()
@@ -178,10 +195,24 @@ public class meleeEnemyMovement : MonoBehaviour
         float distanceToPlayer = 0;
         distanceToPlayer = player.position.x - transform.position.x;
         float nextSpeedX = Mathf.Sign(distanceToPlayer) * followSpeed;
-        if (rb.velocity.magnitude <= 3 && GetComponent<slowDown>().frozen == false) {
+        if (rb.velocity.magnitude <= 3 && GetComponent<slowDown>().frozen == false && GetComponent<trapped>().gotTrapped == false)
+        {
             rb.velocity += new Vector2(nextSpeedX, rb.velocity.y);
         }
        
+        checkJump();
+        ChangeDirection();
+    }
+    public void attackPet()
+    {
+        float distanceToPet = 0;
+        distanceToPet = pet.position.x - transform.position.x;
+        float nextSpeedX = Mathf.Sign(distanceToPet) * followSpeed;
+        if (rb.velocity.magnitude <= 3 && GetComponent<slowDown>().frozen == false && GetComponent<trapped>().gotTrapped == false)
+        {
+            rb.velocity += new Vector2(nextSpeedX, rb.velocity.y);
+        }
+
         checkJump();
         ChangeDirection();
     }
@@ -198,19 +229,41 @@ public class meleeEnemyMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
-    
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        //Decrease player health, emits particle, set player invincible time, trigger sreenshake when hits the player
+        if (collision.collider.gameObject.tag == "Player" && GetComponent<trapped>().gotTrapped == false
+                                                          && GetComponent<slowDown>().frozen == false
+                                                          && gameManager.Instance.playerInvinsible == false
+                                                          && gameManager.Instance.playerDeath == false)
+        {
+            gameManager.Instance.playerHealth -= 2;
+            //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
+            Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
+            gameManager.Instance.playerInvinsibleTime = 0;
+            //scoreManager.Instance.Hit += 1;
+            gameManager.Instance.playerInvinsible = true;
+        }
+    }
+
     private void FixedUpdate()
     {
         canJump = false;
 
         checkPlayer();
+        checkPet();
         //string clipName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
         //float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
-        if (findPlayer) //distanceFromPlayer < lineOfSite
+        if (findPlayer && !findPet) //distanceFromPlayer < lineOfSite
         {
             movementControl();
-        } else
+        }
+        else if(findPet) //distanceFromPlayer < lineOfSite
+        {
+            attackPet();
+        }else
         {
             patrolControl();
         }

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Attacks
+  - Pet
+  - Seed
   layers:
   - Default
   - TransparentFX
@@ -42,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Seeds
+    uniqueID: 3121607619
     locked: 0
