@@ -33,7 +33,7 @@ public class timeManager : Singleton<timeManager>
         {
             //Record the total play time
             playerTime += Time.deltaTime;
-            time.text = "Time: " + Mathf.Round(playerTime); // + "s\nEnemy Level: " + Mathf.Ceil(playerTime / 20)
+            time.text = "Time: " + Mathf.Round(playerTime)+ "s"; // + "s\nEnemy Level: " + Mathf.Ceil(playerTime / 20)
         } else
         {
            //Hide this when player is dead

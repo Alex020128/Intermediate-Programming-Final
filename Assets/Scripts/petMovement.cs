@@ -98,7 +98,8 @@ public class petMovement : MonoBehaviour
 
         if(seedEaten >= gameManager.Instance.petDemand)
         {
-            //kill all enemy in screen
+            gameManager.Instance.levelCleared = true;
+            seedEaten = 0;
         }
     }
 }

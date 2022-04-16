@@ -10,11 +10,15 @@ public class gameManager : Singleton<gameManager>
     [SerializeField]
     private GameObject prefabToSpawn = null;
 
+    private GameObject seedSpawner;
+
     //Player stats
     public int playerHealth;
     public int petHealth;
 
     public int petDemand;
+    public int seedMax;
+    public int spawnWave;
     public TMP_Text health; //UI text
 
     //Player bools
@@ -22,6 +26,8 @@ public class gameManager : Singleton<gameManager>
     public bool playerInvinsible = false;
     public bool petDeath = false;
     public bool petInvinsible = false;
+
+    public bool levelCleared = false;
 
     //Player invincible timer
     public float playerInvinsibleTime;
@@ -47,6 +53,8 @@ public class gameManager : Singleton<gameManager>
     void Awake()
     {
         name = "GameManager"; // Set name of object
+
+        seedSpawner = GameObject.Find("seedSpawner");
         
         health = GetComponent<TMP_Text>();
         //audioSource = GetComponent<AudioSource>();
@@ -57,6 +65,8 @@ public class gameManager : Singleton<gameManager>
         petInvinsibleTime = 0;
 
         petDemand = 5;
+        seedMax = 8;
+        spawnWave = 1;
 
         seedCarried = 0;
         //missileCoolDownTime = 10;
@@ -79,6 +89,17 @@ public class gameManager : Singleton<gameManager>
 
     void Update()
     {
+        if (levelCleared)
+        {
+            petDemand += 5;
+            seedMax += 5;
+            spawnWave += 1;
+            seedSpawner.GetComponent<seedSpawner>().spawnSome();
+
+            levelCleared = false;
+        }
+        
+        
         //The player has 1s of invincible time if gets hurt
         if (playerInvinsible == true)
         {

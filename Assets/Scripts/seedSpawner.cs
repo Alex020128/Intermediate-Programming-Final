@@ -29,13 +29,28 @@ public class seedSpawner : MonoBehaviour
     {
         spawnPerSecond = 20f;
 
-        //Spawn a pool of bullets at top of the screen
+        spawnSome();
+
+        //audioSource = GetComponent<AudioSource>();
+    }
+
+    //public void bulletSFX()
+    //{
+    //Play the bullet SFX
+    //audioSource.Stop();
+    //audioSource.clip = bulletSound;
+    //audioSource.Play();
+    //}
+
+    public void spawnSome()
+    {
+        //Spawn 3 seeds in the space
         for (int i = 0; i < 3; i++)
         {
             GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
             seeds.Add(newSeed);
             //seeds[i].SetActive(false);
-           
+
             bool canSpawn = false;
 
             //Debug.Log(grounedRay.collider.gameObject);
@@ -59,22 +74,12 @@ public class seedSpawner : MonoBehaviour
                 }
             }
         }
-
-        //audioSource = GetComponent<AudioSource>();
     }
-
-    //public void bulletSFX()
-    //{
-    //Play the bullet SFX
-    //audioSource.Stop();
-    //audioSource.clip = bulletSound;
-    //audioSource.Play();
-    //}
 
     public void spawnSeed()
     {
         //let one of the waiting bullets to be active
-        if(seeds.Count < 10)
+        if(seeds.Count < gameManager.Instance.seedMax)
         {
             GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
             seeds.Add(newSeed);
@@ -114,6 +119,15 @@ public class seedSpawner : MonoBehaviour
         {
             spawnTimer += spawnPerSecond;
             spawnSeed();
+        }
+
+        //Delete the dead enemies from the list
+        for (int i = 0; i < seeds.Count; i++)
+        {
+            if (seeds[i] == null)
+            {
+                seeds.Remove(seeds[i]);
+            }
         }
 
         //Let bullet "spawn" around the player's chest
