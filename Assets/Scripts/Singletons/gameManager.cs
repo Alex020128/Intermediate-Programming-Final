@@ -11,6 +11,7 @@ public class gameManager : Singleton<gameManager>
     private GameObject prefabToSpawn = null;
 
     private GameObject seedSpawner;
+    private GameObject enemySpawner;
 
     //Player stats
     public int playerHealth;
@@ -55,7 +56,8 @@ public class gameManager : Singleton<gameManager>
         name = "GameManager"; // Set name of object
 
         seedSpawner = GameObject.Find("seedSpawner");
-        
+        enemySpawner = GameObject.Find("enemySpawner");
+
         health = GetComponent<TMP_Text>();
         //audioSource = GetComponent<AudioSource>();
 
@@ -95,6 +97,8 @@ public class gameManager : Singleton<gameManager>
             seedMax += 5;
             spawnWave += 1;
             seedSpawner.GetComponent<seedSpawner>().spawnSome();
+            enemySpawner.GetComponent<enemySpawner>().killAllEnemies();
+            enemySpawner.GetComponent<enemySpawner>().spawnWave();
 
             levelCleared = false;
         }
@@ -143,6 +147,11 @@ public class gameManager : Singleton<gameManager>
         if (playerHealth > 100)
         {
             playerHealth = 100;
+        }
+
+        if(playerDeath || petDeath)
+        {
+            SceneManager.LoadScene("endingScreen");
         }
 
         //Increases bullet damage by 1 if the exp bar is filled, increases the exp required for next levelup by 1 as well

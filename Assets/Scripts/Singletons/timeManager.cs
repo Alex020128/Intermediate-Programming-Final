@@ -13,7 +13,9 @@ public class timeManager : Singleton<timeManager>
 
     //Enemy and spawn stats
 
+    public float initialSpawnSize;
     public float spawnSize;
+
 
     void Awake()
     {
@@ -23,7 +25,8 @@ public class timeManager : Singleton<timeManager>
 
         playerTime = 0;
 
-        spawnSize = 5;
+        initialSpawnSize = 5;
+        spawnSize = 3;
     }
 
     // Update is called once per frame
@@ -45,7 +48,7 @@ public class timeManager : Singleton<timeManager>
         {
   
             //increases the maximum enemy size and the spawn frequency
-            spawnSize = 5 + 5 * Mathf.Floor(playerTime / 20);
+            spawnSize = 3 + 1 * Mathf.Floor(playerTime / 20);
             //spawnFrequency = 5 - 0.5f * Mathf.Floor(playerTime / 20);
         }
     }
