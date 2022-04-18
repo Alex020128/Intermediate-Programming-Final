@@ -25,7 +25,7 @@ public class timeManager : Singleton<timeManager>
 
         playerTime = 0;
 
-        initialSpawnSize = 5;
+        initialSpawnSize = 3;
         spawnSize = 3;
     }
 
@@ -44,11 +44,11 @@ public class timeManager : Singleton<timeManager>
         }
 
         //Increase the enemy stats
-        if (Mathf.Floor(playerTime) % 20 == 0 && Mathf.Floor(playerTime) != 0)
+        if (Mathf.Floor(playerTime) % 30 == 0 && Mathf.Floor(playerTime) != 0)
         {
   
             //increases the maximum enemy size and the spawn frequency
-            spawnSize = 3 + 1 * Mathf.Floor(playerTime / 20);
+            spawnSize = 3 + 1 * Mathf.Floor(playerTime / 30);
             //spawnFrequency = 5 - 0.5f * Mathf.Floor(playerTime / 20);
         }
     }

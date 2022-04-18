@@ -27,7 +27,7 @@ public class seedSpawner : MonoBehaviour
 
     private void Start()
     {
-        spawnPerSecond = 20f;
+        spawnPerSecond = 10f;
 
         spawnSome();
 

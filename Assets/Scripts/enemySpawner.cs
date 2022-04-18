@@ -72,6 +72,15 @@ public class enemySpawner : MonoBehaviour
     {
         for (int i = 0; i < enemies.Count; i++)
         {
+            if(enemies[i].GetComponent<meleeEnemyMovement>() != null)
+            {
+                scoreManager.Instance.meleeEnemyKills += 1;
+            }
+            /*if (enemies[i].GetComponent<rangeEnemyMovement>() != null)
+            {
+                scoreManager.Instance.meleeEnemyKills += 1;
+            }*/
+
             Destroy(enemies[i]);
         }
     }

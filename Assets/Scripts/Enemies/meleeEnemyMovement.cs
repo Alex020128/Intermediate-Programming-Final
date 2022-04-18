@@ -242,7 +242,7 @@ public class meleeEnemyMovement : MonoBehaviour
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.playerInvinsibleTime = 0;
-            //scoreManager.Instance.Hit += 1;
+            scoreManager.Instance.meleeHit += 1;
             gameManager.Instance.playerInvinsible = true;
         }
     }
