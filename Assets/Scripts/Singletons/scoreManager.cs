@@ -9,6 +9,7 @@ public class scoreManager : Singleton<scoreManager>
     public float meleeEnemyKills;
     public float rangeEnemyKills;
     public float meleeHit;
+    public float rangeHit;
     public float playerTime;
 
     // Start is called before the first frame update
@@ -17,6 +18,7 @@ public class scoreManager : Singleton<scoreManager>
         meleeEnemyKills = 0;
         rangeEnemyKills = 0;
         meleeHit = 0;
+        rangeHit = 0;
 
         name = "ScoreManager"; // Set name of object
     }
