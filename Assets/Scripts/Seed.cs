@@ -26,6 +26,7 @@ public class Seed : MonoBehaviour
             if (collectTime > 2)
             {
                 gameManager.Instance.seedCarried += 1;
+                gameManager.Instance.petHealth += 3;
                 Destroy(this.gameObject);
             }
         }

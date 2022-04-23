@@ -149,7 +149,12 @@ public class gameManager : Singleton<gameManager>
             playerHealth = 100;
         }
 
-        if(playerDeath || petDeath)
+        if (petHealth > 50)
+        {
+            petHealth = 50;
+        }
+
+        if (playerDeath || petDeath)
         {
             SceneManager.LoadScene("endingScreen");
         }

@@ -70,6 +70,20 @@ public class rangeEnemyMovement : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void checkGround()
+    {
+        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 4f, 1 << 2);
+
+        //Debug.Log(grounedRay.collider.gameObject);
+
+        if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<enemyCanJump>() != null)
+        {
+            Debug.Log(grounedRay.collider.gameObject);
+
+            changeDirection();
+        }
+    }
+
     private void checkPlayer()
     {
         RaycastHit2D[] sightRay = Physics2D.RaycastAll(transform.position, player.position - transform.position, lineOfSite, (1 << 6 | 1 << 0));
@@ -100,6 +114,19 @@ public class rangeEnemyMovement : MonoBehaviour
     //Show gizmos of the shoot bullet range
     private void OnDrawGizmosSelected()
     {
+        Color myCol1;
+
+        if (findPlayer == true)
+        {
+            myCol1 = Color.green;
+        }
+        else
+        {
+            myCol1 = Color.red;
+        }
+
+        Debug.DrawRay(transform.position, player.position - transform.position, myCol1);
+
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, shootingRange);
     }
@@ -168,7 +195,9 @@ public class rangeEnemyMovement : MonoBehaviour
                 rb.velocity += new Vector2(nextSpeedX, rb.velocity.y);
             }
         }
-        else if (distanceFromPlayer <= shootingRange && nextFireTime < Time.time)
+        else if (distanceFromPlayer <= shootingRange && nextFireTime < Time.time
+                                                     && GetComponent<slowDown>().frozen == false
+                                                     && GetComponent<trapped>().gotTrapped == false)
         {
             shootBullet();
             nextFireTime = Time.time + fireRate;
@@ -188,7 +217,9 @@ public class rangeEnemyMovement : MonoBehaviour
                 rb.velocity += new Vector2(nextSpeedX, rb.velocity.y);
             }
         }
-        else if (distanceFromPet <= shootingRange && nextFireTime < Time.time)
+        else if (distanceFromPet <= shootingRange && nextFireTime < Time.time
+                                                  && GetComponent<slowDown>().frozen == false
+                                                  && GetComponent<trapped>().gotTrapped == false)
         {
             shootBullet();
             nextFireTime = Time.time + fireRate;
@@ -211,7 +242,7 @@ public class rangeEnemyMovement : MonoBehaviour
 
     public void patrolControl()
     {
-        //direction = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)).normalized;
+        checkGround();
 
         if (Time.time - latestDirectionChangeTime > directionChangeTime)
         {

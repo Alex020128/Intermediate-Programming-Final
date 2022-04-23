@@ -26,7 +26,8 @@ public class scoreUI : MonoBehaviour
             Score = Mathf.Floor(scoreManager.Instance.meleeEnemyKills * 100 + 
                                 scoreManager.Instance.rangeEnemyKills * 150 +
                                 scoreManager.Instance.playerTime * 10 - 
-                                scoreManager.Instance.meleeHit * 100);
+                                scoreManager.Instance.meleeHit * 100 -
+                                scoreManager.Instance.rangeHit * 50);
         }
 
         //Score cannot be negative

@@ -76,10 +76,10 @@ public class enemySpawner : MonoBehaviour
             {
                 scoreManager.Instance.meleeEnemyKills += 1;
             }
-            /*if (enemies[i].GetComponent<rangeEnemyMovement>() != null)
+            if (enemies[i].GetComponent<rangeEnemyMovement>() != null)
             {
-                scoreManager.Instance.meleeEnemyKills += 1;
-            }*/
+                scoreManager.Instance.rangeEnemyKills += 1;
+            }
 
             Destroy(enemies[i]);
         }

@@ -138,7 +138,7 @@ MonoBehaviour:
   patrolSpeed: 1
   followSpeed: 1.5
   lineOfSite: 3
-  shootingRange: 1.5
+  shootingRange: 2
   fireRate: 3
   latestDirectionChangeTime: 0
   bulletParent: {fileID: 9214066719987849586}

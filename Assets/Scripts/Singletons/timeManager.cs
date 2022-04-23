@@ -23,10 +23,10 @@ public class timeManager : Singleton<timeManager>
         
         time = GetComponent<TMP_Text>();
 
-        playerTime = 0;
+        //playerTime = 0;
 
-        initialSpawnSize = 3;
-        spawnSize = 3;
+        //initialSpawnSize = 3;
+        //spawnSize = 3;
     }
 
     // Update is called once per frame
