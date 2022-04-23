@@ -72,13 +72,24 @@ public class rangeEnemyMovement : MonoBehaviour
 
     private void checkGround()
     {
-        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 4f, 1 << 2);
+        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 5f, 1 << 2);
 
         //Debug.Log(grounedRay.collider.gameObject);
 
         if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<enemyCanJump>() != null)
         {
             Debug.Log(grounedRay.collider.gameObject);
+
+            changeDirection();
+        }
+
+        RaycastHit2D ceilingRay = Physics2D.Raycast(transform.position, Vector2.up, 1.5f, 1 << 2);
+
+        //Debug.Log(grounedRay.collider.gameObject);
+
+        if (ceilingRay.collider != null && ceilingRay.collider.gameObject.GetComponent<enemyCanJump>() != null)
+        {
+            Debug.Log(ceilingRay.collider.gameObject);
 
             changeDirection();
         }
@@ -161,14 +172,14 @@ public class rangeEnemyMovement : MonoBehaviour
         if (collision.collider.gameObject.tag == "Player" && GetComponent<trapped>().gotTrapped == false
                                                           && GetComponent<slowDown>().frozen == false
                                                           && gameManager.Instance.playerInvinsible == false
-                                                          && gameManager.Instance.playerDeath == false)
+                                                          && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
-            gameManager.Instance.playerHealth -= 1;
+            gameManager.Instance.playerHealth -= 2;
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.playerInvinsibleTime = 0;
-            scoreManager.Instance.rangeHit += 1;
+            scoreManager.Instance.meleeHit += 1;
             gameManager.Instance.playerInvinsible = true;
         }
     }

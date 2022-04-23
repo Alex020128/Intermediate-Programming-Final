@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class petHealthUI : MonoBehaviour
+public class playerHealthUI : MonoBehaviour
 {
-    public TMP_Text petHealth;
+    public TMP_Text playerHealth;
 
     // Start is called before the first frame update
     void Start()
     {
-        petHealth = GetComponent<TMP_Text>();
+        playerHealth = GetComponent<TMP_Text>();
     }
 
     // Update is called once per frame
@@ -19,11 +19,11 @@ public class petHealthUI : MonoBehaviour
     {
         if (gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
-            petHealth.text = "Pet Health: " + gameManager.Instance.petHealth;
+            playerHealth.text = "Player Health: " + gameManager.Instance.playerHealth;
         }
         else
         {
-            petHealth.enabled = false;
+            playerHealth.enabled = false;
         }
     }
 }

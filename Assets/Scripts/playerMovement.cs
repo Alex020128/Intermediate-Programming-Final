@@ -143,24 +143,26 @@ public class playerMovement : MonoBehaviour
 			moveSpeed = 10f;
 		}
 
+		if (gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
+        {
+			//Use LMB and RMB to shoot arcane missiles and cast a magic circle (bullet and missile)
+			if (Input.GetMouseButton(0) && shootBullet == false) // && gameManager.Instance.death == false
+			{
+				GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().shootBullet();
+				shootBullet = true;
+			}
 
-		//Use LMB and RMB to shoot arcane missiles and cast a magic circle (bullet and missile)
-		if (Input.GetMouseButton(0) && shootBullet == false) // && gameManager.Instance.death == false
-		{
-			GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().shootBullet();
-			shootBullet = true;
-		}
+			if (Input.GetMouseButton(1) && shootCannon == false) // && gameManager.Instance.death == false
+			{
+				GameObject.Find("rmbBullet").GetComponent<iceCannonSpawner>().shootBullet();
+				shootCannon = true;
+			}
 
-		if (Input.GetMouseButton(1) && shootCannon == false) // && gameManager.Instance.death == false
-		{
-			GameObject.Find("rmbBullet").GetComponent<iceCannonSpawner>().shootBullet();
-			shootCannon = true;
-		}
-		
-		if (Input.GetKeyDown(KeyCode.Q) && placeTrap == false && isGrounded == true) // && gameManager.Instance.death == false
-		{
-			GameObject.Find("qKey").GetComponent<trapSpawner>().placeTrap();
-			placeTrap = true;
+			if (Input.GetKeyDown(KeyCode.Q) && placeTrap == false && isGrounded == true) // && gameManager.Instance.death == false
+			{
+				GameObject.Find("qKey").GetComponent<trapSpawner>().placeTrap();
+				placeTrap = true;
+			}
 		}
 	}
 }

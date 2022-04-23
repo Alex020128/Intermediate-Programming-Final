@@ -1,15 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 
 public class gameManager : Singleton<gameManager>
 {
     //Player bullet
     [SerializeField]
-    private GameObject prefabToSpawn = null;
-
     private GameObject seedSpawner;
     private GameObject enemySpawner;
 
@@ -20,34 +17,23 @@ public class gameManager : Singleton<gameManager>
     public int petDemand;
     public int seedMax;
     public int spawnWave;
-    public TMP_Text health; //UI text
 
     //Player bools
-    public bool playerDeath = false;
-    public bool playerInvinsible = false;
-    public bool petDeath = false;
-    public bool petInvinsible = false;
+    public bool playerDeath;
+    public bool playerInvinsible;
+    public bool petDeath;
+    public bool petInvinsible;
 
-    public bool levelCleared = false;
+    public bool levelCleared;
 
     //Player invincible timer
     public float playerInvinsibleTime;
     public float petInvinsibleTime;
     public float seedCarried;
 
-    //Player stats that can grow as more buffs are collected
-    /*public float missileCoolDownTime;
-    
-    public float bulletDamage;
-    public float missileDamage;
+    Coroutine endingCoroutine;
 
-    public float bulletDamageEXP;
-    public float bulletAmountEXP;
-
-    public float bulletDamageEXPBar;
-    public float bulletAmountEXPBar;
-
-    //Background music loop
+    /*//Background music loop
     public AudioSource audioSource;
     public AudioClip musicLoop;*/
 
@@ -58,9 +44,20 @@ public class gameManager : Singleton<gameManager>
         seedSpawner = GameObject.Find("seedSpawner");
         enemySpawner = GameObject.Find("enemySpawner");
 
-        health = GetComponent<TMP_Text>();
         //audioSource = GetComponent<AudioSource>();
+    }
 
+    private void Start()
+    {
+        //Loops the music
+        //audioSource.clip = musicLoop;
+
+        //audioSource.Play();
+        resetStats();
+    }
+
+    public void resetStats()
+    {
         playerHealth = 100;
         petHealth = 50;
         playerInvinsibleTime = 0;
@@ -71,26 +68,32 @@ public class gameManager : Singleton<gameManager>
         spawnWave = 1;
 
         seedCarried = 0;
-        //missileCoolDownTime = 10;
 
-        //bulletDamageEXP = 0;
-        //bulletAmountEXP = 0;
-
-        //bulletDamageEXPBar = 1;
-        //bulletAmountEXPBar = 1;
-
-
+        playerDeath = false;
+        playerInvinsible = false;
+        petDeath = false;
+        petInvinsible = false;
     }
 
-    private void Start()
+    private IEnumerator endingScreen(float wait)
     {
-        //Loops the music
-        //audioSource.clip = musicLoop;
-        //audioSource.Play();
+        //Make sure that the death particle will be shown
+        yield return new WaitForSeconds(wait);
+        if ("endingScreen" != SceneManager.GetActiveScene().name)
+        {
+            SceneManager.LoadScene("endingScreen");
+        }
     }
 
     void Update()
     {
+
+        if ("gameScreen" == SceneManager.GetActiveScene().name)
+        {
+            seedSpawner = GameObject.Find("seedSpawner");
+            enemySpawner = GameObject.Find("enemySpawner");
+        }
+
         if (levelCleared)
         {
             petDemand += 5;
@@ -102,7 +105,6 @@ public class gameManager : Singleton<gameManager>
 
             levelCleared = false;
         }
-        
         
         //The player has 1s of invincible time if gets hurt
         if (playerInvinsible == true)
@@ -121,15 +123,6 @@ public class gameManager : Singleton<gameManager>
             {
                 petInvinsible = false;
             }
-        }
-
-        //Display health
-        if (playerDeath == false)
-        {
-            health.text = "Health: " + playerHealth;
-        } else
-        {
-            health.enabled = false;
         }
 
         //Player death
@@ -154,28 +147,17 @@ public class gameManager : Singleton<gameManager>
             petHealth = 50;
         }
 
-        if (playerDeath || petDeath)
+        if("gameScreen" == SceneManager.GetActiveScene().name)
         {
-            SceneManager.LoadScene("endingScreen");
+            if ((playerDeath || petDeath))
+            {
+                endingCoroutine = StartCoroutine(endingScreen(3f));
+            }
         }
 
-        //Increases bullet damage by 1 if the exp bar is filled, increases the exp required for next levelup by 1 as well
-        /*if (bulletDamageEXP == bulletDamageEXPBar)
+        if ("titleScreen" == SceneManager.GetActiveScene().name)
         {
-            bulletDamage += 1;
-            bulletDamageEXP = 0;
-            bulletDamageEXPBar += 1;
+            resetStats();
         }
-        
-        //Increases bullet amount by 1 if the exp bar is filled, increases the exp required for next levelup by 1 as well
-        if (bulletAmountEXP == bulletAmountEXPBar)
-        {
-            GameObject newBullet = Instantiate(prefabToSpawn, GameObject.Find("lmbBullet").transform.position, Quaternion.identity, GameObject.Find("lmbBullet").transform);
-            GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().Bullets.Add(newBullet);
-            newBullet.SetActive(false);
-            bulletAmountEXP = 0;
-            bulletAmountEXPBar += 1;
-            missileCoolDownTime -= 1;
-        }*/
     }
 }

@@ -11,15 +11,12 @@ public class scoreManager : Singleton<scoreManager>
     public float meleeHit;
     public float rangeHit;
     public float playerTime;
+        
+    public float seedEaten;
 
     // Start is called before the first frame update
     void Awake()
     {
-        meleeEnemyKills = 0;
-        rangeEnemyKills = 0;
-        meleeHit = 0;
-        rangeHit = 0;
-
         name = "ScoreManager"; // Set name of object
     }
 
@@ -27,11 +24,30 @@ public class scoreManager : Singleton<scoreManager>
     {
         //The initial position of the UI text
         //transform.localPosition = new Vector2(0, 206.5f);
+        resetStats();
+    }
+
+    public void resetStats()
+    {
+        meleeEnemyKills = 0;
+        rangeEnemyKills = 0;
+        meleeHit = 0;
+        rangeHit = 0;
+        seedEaten = 0;
+        playerTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerTime = timeManager.Instance.playerTime;
+        if(SceneManager.GetActiveScene().name =="endingScreen")
+        {
+            playerTime = timeManager.Instance.finalTime;
+        }
+
+        if (SceneManager.GetActiveScene().name == "titleScreen")
+        {
+            resetStats();
+        }
     }
 }

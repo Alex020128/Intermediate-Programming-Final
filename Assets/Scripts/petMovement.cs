@@ -34,6 +34,7 @@ public class petMovement : MonoBehaviour
             if (feedTime > 5)
             {
                 seedEaten += gameManager.Instance.seedCarried;
+                scoreManager.Instance.seedEaten += gameManager.Instance.seedCarried;
                 gameManager.Instance.seedCarried = 0;
             }
 
@@ -51,14 +52,14 @@ public class petMovement : MonoBehaviour
         if (collision.gameObject.tag == "Enemy"&& collision.gameObject.GetComponent<trapped>().gotTrapped == false
                                                && collision.gameObject.GetComponent<slowDown>().frozen == false
                                                && gameManager.Instance.petInvinsible == false
-                                               && gameManager.Instance.petDeath == false)
+                                               && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
             gameManager.Instance.petHealth -= 2;
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             gameManager.Instance.petInvinsibleTime = 0;
-            //scoreManager.Instance.Hit += 1;
+            scoreManager.Instance.meleeHit += 1;
             gameManager.Instance.petInvinsible = true;
         }
     }

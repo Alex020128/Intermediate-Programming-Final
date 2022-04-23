@@ -17,6 +17,13 @@ public class seedCarriedUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        seedCarried.text = "" + gameManager.Instance.seedCarried;
+        if(gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
+        {
+            seedCarried.text = "" + gameManager.Instance.seedCarried;
+        }
+        else
+        {
+            seedCarried.enabled = false;
+        }
     }
 }

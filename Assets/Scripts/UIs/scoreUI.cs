@@ -21,13 +21,17 @@ public class scoreUI : MonoBehaviour
     void Update()
     {
         //Record your score, which is related to total play time, total kills of the enemies, and the number of times when you get hit
-        if (gameManager.Instance.playerDeath == false)
+        if (gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
             Score = Mathf.Floor(scoreManager.Instance.meleeEnemyKills * 100 + 
                                 scoreManager.Instance.rangeEnemyKills * 150 +
-                                scoreManager.Instance.playerTime * 10 - 
-                                scoreManager.Instance.meleeHit * 100 -
-                                scoreManager.Instance.rangeHit * 50);
+                                timeManager.Instance.playerTime * 10 - 
+                                scoreManager.Instance.meleeHit * 10 -
+                                scoreManager.Instance.rangeHit * 5);
+        }
+        else
+        {
+            score.enabled = false;
         }
 
         //Score cannot be negative

@@ -30,7 +30,7 @@ public class enemyBullet : MonoBehaviour
     {
         //Decrease player health, emits particle, set player invincible time, trigger sreenshake when hits the player
         if (collision.gameObject.tag == "Player" && gameManager.Instance.playerInvinsible == false
-                                                          && gameManager.Instance.playerDeath == false)
+                                                 && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
             gameManager.Instance.playerHealth -= 1;
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
@@ -39,6 +39,18 @@ public class enemyBullet : MonoBehaviour
             gameManager.Instance.playerInvinsibleTime = 0;
             scoreManager.Instance.rangeHit += 1;
             gameManager.Instance.playerInvinsible = true;
+        }
+
+        if (collision.gameObject.tag == "Pet" && gameManager.Instance.petInvinsible == false
+                                              && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
+        {
+            gameManager.Instance.petHealth -= 1;
+            //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
+            Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
+            gameManager.Instance.petInvinsibleTime = 0;
+            scoreManager.Instance.rangeHit += 1;
+            gameManager.Instance.petInvinsible = true;
         }
     }
 

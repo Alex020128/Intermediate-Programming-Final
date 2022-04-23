@@ -19,6 +19,13 @@ public class petEatenUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        petEaten.text = "Seeds Eaten: " + pet.GetComponent<petMovement>().seedEaten;
+        if (gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
+        {
+            petEaten.text = "Seeds Eaten: " + pet.GetComponent<petMovement>().seedEaten;
+        }
+        else
+        {
+            petEaten.enabled = false;
+        }
     }
 }

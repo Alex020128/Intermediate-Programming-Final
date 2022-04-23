@@ -235,7 +235,7 @@ public class meleeEnemyMovement : MonoBehaviour
         if (collision.collider.gameObject.tag == "Player" && GetComponent<trapped>().gotTrapped == false
                                                           && GetComponent<slowDown>().frozen == false
                                                           && gameManager.Instance.playerInvinsible == false
-                                                          && gameManager.Instance.playerDeath == false)
+                                                          && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
             gameManager.Instance.playerHealth -= 2;
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
