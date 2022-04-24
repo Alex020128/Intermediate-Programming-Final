@@ -32,7 +32,6 @@ public class enemySpawner : MonoBehaviour
         }
     }
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -63,7 +62,6 @@ public class enemySpawner : MonoBehaviour
                 GameObject newEnemy = Instantiate(prefabToSpawn, new Vector2(Random.Range(spawnPoint.transform.position.x - 1, spawnPoint.transform.position.x + 1),
                                                                  spawnPoint.transform.position.y),Quaternion.identity);
                 enemies.Add(newEnemy);
-                //seeds[i].SetActive(false);
             }
         }
     }

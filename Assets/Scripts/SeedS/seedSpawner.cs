@@ -8,6 +8,12 @@ public class seedSpawner : MonoBehaviour
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
+    private GameObject prefabFrostSeed = null;
+    [SerializeField]
+    private GameObject prefabTrapSeed = null;
+    [SerializeField]
+    private GameObject prefabSeed = null;
+    [SerializeField]
     private float spawnPerSecond = 20f;
     [SerializeField]
     private float spawnTimer;
@@ -47,6 +53,20 @@ public class seedSpawner : MonoBehaviour
         //Spawn 3 seeds in the space
         for (int i = 0; i < 3; i++)
         {
+            int chance = Random.Range(0, 100);
+            if (chance <= 20)
+            {
+                prefabToSpawn = prefabFrostSeed;
+            }
+            else if(21<= chance && chance <= 40)
+            {
+                prefabToSpawn = prefabTrapSeed;
+            }
+            else
+            {
+                prefabToSpawn = prefabSeed;
+            }
+
             GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
             seeds.Add(newSeed);
             //seeds[i].SetActive(false);
@@ -81,6 +101,20 @@ public class seedSpawner : MonoBehaviour
         //let one of the waiting bullets to be active
         if(seeds.Count < gameManager.Instance.seedMax)
         {
+            int chance = Random.Range(0, 100);
+            if (chance <= 20)
+            {
+                prefabToSpawn = prefabFrostSeed;
+            }
+            else if (21 <= chance && chance <= 40)
+            {
+                prefabToSpawn = prefabTrapSeed;
+            }
+            else
+            {
+                prefabToSpawn = prefabSeed;
+            }
+
             GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
             seeds.Add(newSeed);
             //seeds[i].SetActive(false);

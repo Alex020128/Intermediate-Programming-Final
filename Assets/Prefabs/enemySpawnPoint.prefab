@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1246055125938322931}
   - component: {fileID: 1246055125938322928}
   - component: {fileID: 1246055125938322929}
-  - component: {fileID: 1246055125938322930}
   m_Layer: 2
   m_Name: enemySpawnPoint
   m_TagString: Untagged
@@ -112,15 +111,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1246055125938322930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1246055125938322956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24355c54a274ec14aa80de8576392c43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

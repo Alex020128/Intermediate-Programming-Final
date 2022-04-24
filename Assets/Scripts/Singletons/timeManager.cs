@@ -19,7 +19,7 @@ public class timeManager : Singleton<timeManager>
     {
         name = "TimeManager"; // Set name of object
 
-        //playerTime = 0;
+        spawnSize = 3;
     }
 
     private void Start()
@@ -30,6 +30,9 @@ public class timeManager : Singleton<timeManager>
     public void resetStats()
     {
         playerTime = 0;
+        finalTime = 0; ;
+        initialSpawnSize = 3;
+        spawnSize = 3;playerTime = 0;
         finalTime = 0; ;
         initialSpawnSize = 3;
         spawnSize = 3;
@@ -51,11 +54,10 @@ public class timeManager : Singleton<timeManager>
         }
 
         //Increase the enemy stats
-        if (Mathf.Floor(playerTime) % 30 == 0 && Mathf.Floor(playerTime) != 0)
+        if (Mathf.Floor(playerTime) % 60 == 0 && Mathf.Floor(playerTime) != 0)
         {
             //increases the maximum enemy size and the spawn frequency
-            spawnSize = 3 + 1 * Mathf.Floor(playerTime / 30);
-            //spawnFrequency = 5 - 0.5f * Mathf.Floor(playerTime / 20);
+            spawnSize = initialSpawnSize + 1 * Mathf.Floor(playerTime / 60);
         }
 
         if ("titleScreen" == SceneManager.GetActiveScene().name)

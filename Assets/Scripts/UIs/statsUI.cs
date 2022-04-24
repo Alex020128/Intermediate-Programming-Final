@@ -19,9 +19,9 @@ public class statsUI : MonoBehaviour
     void Update()
     {
         //Display total time lasted, total score, and instruction for restart
-        Stats.text = "You lasted: " + Mathf.Round(scoreManager.Instance.playerTime) +
-                     "s\nTotal kills: " + (scoreManager.Instance.meleeEnemyKills + scoreManager.Instance.meleeEnemyKills) +
-                     "\nTotal damage received: " + (scoreManager.Instance.meleeHit * 2 + scoreManager.Instance.rangeHit * 1) +
-                     "\n\n\nTotal seeds eaten: " + scoreManager.Instance.seedEaten;
+        Stats.text = "You Lasted: " + Mathf.Round(scoreManager.Instance.playerTime) +
+                     "s\n\nTotal Kills: " + (scoreManager.Instance.meleeEnemyKills + scoreManager.Instance.meleeEnemyKills) +
+                     "\n\nTotal Damage Received: " + (scoreManager.Instance.meleeHit * 2 + scoreManager.Instance.rangeHit * 1) +
+                     "\n\n\n\nTotal Seeds Eaten: " + scoreManager.Instance.seedEaten;
     }
 }

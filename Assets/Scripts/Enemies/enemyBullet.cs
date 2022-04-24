@@ -52,6 +52,13 @@ public class enemyBullet : MonoBehaviour
             scoreManager.Instance.rangeHit += 1;
             gameManager.Instance.petInvinsible = true;
         }
+
+        if (collision != null && collision.gameObject.tag != "Enemy"
+                              && collision.gameObject.tag != "Attacks"
+                              && collision.gameObject.tag != "Seed")
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame

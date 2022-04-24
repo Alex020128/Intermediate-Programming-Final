@@ -2,16 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Seed : MonoBehaviour
+public class frostSeed : MonoBehaviour
 {
     public float collectTime = 0;
     public bool collecting;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void OnTriggerStay2D(Collider2D collision)
     {
@@ -27,6 +21,8 @@ public class Seed : MonoBehaviour
             {
                 gameManager.Instance.seedCarried += 1;
                 gameManager.Instance.petHealth += 3;
+                GameObject.Find("Player").GetComponent<playerMovement>().equipment = "frostCircle";
+                GameObject.Find("getEquipmentUI").GetComponent<getEquipmentUI>().faded = false;
                 Destroy(this.gameObject);
             }
         }

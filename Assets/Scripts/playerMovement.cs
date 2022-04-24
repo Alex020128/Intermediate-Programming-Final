@@ -5,11 +5,9 @@ using UnityEngine.Events;
 
 public class playerMovement : MonoBehaviour
 {
-	[SerializeField] private float jumpForce = 700f;                          // Amount of force added when the player jumps.
-	//[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
-	[Range(0, .3f)] [SerializeField] private float movementSmoothing = .05f;  // How much to smooth out the movement
-	[SerializeField] private bool airControl = true;                         // Whether or not a player can steer while jumping;
-
+	[SerializeField] private float jumpForce = 700f;// Amount of force added when the player jumps.
+	[Range(0, .3f)] [SerializeField] private float movementSmoothing = .05f;// How much to smooth out the movement
+	[SerializeField] private bool airControl = true;// Whether or not a player can steer while jumping;
 
 	public bool isGrounded;            // Whether or not the player is grounded.
 	private Rigidbody2D rb;
@@ -25,7 +23,11 @@ public class playerMovement : MonoBehaviour
 	public bool jump = false;
 	public bool shootBullet;
 	public bool shootCannon;
-	public bool placeTrap;
+
+	public string equipment;
+	
+	public bool placeTrap; 
+	public bool castCircle;
 
 	private void Awake()
 	{
@@ -35,6 +37,8 @@ public class playerMovement : MonoBehaviour
 
 		jumpForce = 650f;
 		moveSpeed = 10f;
+
+		equipment = "None";
 }
 
 	private void FixedUpdate()
@@ -131,37 +135,50 @@ public class playerMovement : MonoBehaviour
 
     private void Update()
     {
-		playerControl();
-
-        if (pet.GetComponent<petMovement>().carrying)
-        {
-			jumpForce = 500f;
-			moveSpeed = 5f;
-		} else
-        {
-			jumpForce = 650f;
-			moveSpeed = 10f;
-		}
-
 		if (gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
-        {
+		{
+			playerControl();
+
+			if (pet.GetComponent<petMovement>().carrying)
+			{
+				jumpForce = 500f;
+				moveSpeed = 5f;
+			}
+			else
+			{
+				jumpForce = 650f;
+				moveSpeed = 10f;
+			}
+
 			//Use LMB and RMB to shoot arcane missiles and cast a magic circle (bullet and missile)
-			if (Input.GetMouseButton(0) && shootBullet == false) // && gameManager.Instance.death == false
+			if (Input.GetMouseButton(0) && shootBullet == false)
 			{
 				GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().shootBullet();
 				shootBullet = true;
 			}
 
-			if (Input.GetMouseButton(1) && shootCannon == false) // && gameManager.Instance.death == false
+			if (Input.GetMouseButton(1) && shootCannon == false)
 			{
 				GameObject.Find("rmbBullet").GetComponent<iceCannonSpawner>().shootBullet();
 				shootCannon = true;
 			}
 
-			if (Input.GetKeyDown(KeyCode.Q) && placeTrap == false && isGrounded == true) // && gameManager.Instance.death == false
+			if (equipment == "Trap")
 			{
-				GameObject.Find("qKey").GetComponent<trapSpawner>().placeTrap();
-				placeTrap = true;
+				if (Input.GetKeyDown(KeyCode.Q) && placeTrap == false && isGrounded == true)
+				{
+					GameObject.Find("Trap").GetComponent<trapSpawner>().placeTrap();
+					placeTrap = true;
+				}
+			}
+
+			if (equipment == "frostCircle")
+			{
+				if (Input.GetKeyDown(KeyCode.Q) && castCircle == false)
+				{
+					GameObject.Find("displayCircle").GetComponent<frostCircle>().castCircle();
+					castCircle = true;
+				}
 			}
 		}
 	}

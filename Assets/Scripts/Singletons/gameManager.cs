@@ -8,6 +8,7 @@ public class gameManager : Singleton<gameManager>
     //Player bullet
     [SerializeField]
     private GameObject seedSpawner;
+    [SerializeField]
     private GameObject enemySpawner;
 
     //Player stats
@@ -45,6 +46,8 @@ public class gameManager : Singleton<gameManager>
         enemySpawner = GameObject.Find("enemySpawner");
 
         //audioSource = GetComponent<AudioSource>();
+
+        spawnWave = 1;
     }
 
     private void Start()
@@ -79,9 +82,10 @@ public class gameManager : Singleton<gameManager>
     {
         //Make sure that the death particle will be shown
         yield return new WaitForSeconds(wait);
-        if ("endingScreen" != SceneManager.GetActiveScene().name)
+        if ("gameScreen" == SceneManager.GetActiveScene().name)
         {
             SceneManager.LoadScene("endingScreen");
+            resetStats();
         }
     }
 
