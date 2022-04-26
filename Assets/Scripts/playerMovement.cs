@@ -11,6 +11,7 @@ public class playerMovement : MonoBehaviour
 
 	public bool isGrounded;            // Whether or not the player is grounded.
 	private Rigidbody2D rb;
+	public Animator animator;
 	private bool facingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 currentVelocity = Vector3.zero;
 
@@ -32,11 +33,9 @@ public class playerMovement : MonoBehaviour
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
+		animator = GetComponent<Animator>();
 
 		pet = GameObject.Find("Pet");
-
-		jumpForce = 650f;
-		moveSpeed = 10f;
 
 		equipment = "None";
 }
@@ -49,7 +48,7 @@ public class playerMovement : MonoBehaviour
 
 	private void CheckGrounded()
 	{
-		RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, 1 << 6);
+		RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1f, 1 << 6);
 
 		//Debug.Log(grounedRay.collider.gameObject);
 
@@ -86,6 +85,7 @@ public class playerMovement : MonoBehaviour
 		{
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * moveSpeed, rb.velocity.y);
+			animator.SetFloat("Horizontal", Mathf.Abs(move * moveSpeed));
 			// And then smoothing it out and applying it to the character
 			rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref currentVelocity, movementSmoothing);
 
@@ -105,6 +105,7 @@ public class playerMovement : MonoBehaviour
 		// If the player should jump...
 		if (isGrounded && jump)
 		{
+			animator.SetTrigger("Jump");
 			// Add a vertical force to the player.
 			isGrounded = false;
 			rb.AddForce(new Vector2(0f, jumpForce));
@@ -141,24 +142,26 @@ public class playerMovement : MonoBehaviour
 
 			if (pet.GetComponent<petMovement>().carrying)
 			{
-				jumpForce = 500f;
+				jumpForce = 600f;
 				moveSpeed = 5f;
 			}
 			else
 			{
-				jumpForce = 650f;
-				moveSpeed = 10f;
+				jumpForce = 700f;
+				moveSpeed = 7f;
 			}
 
 			//Use LMB and RMB to shoot arcane missiles and cast a magic circle (bullet and missile)
 			if (Input.GetMouseButton(0) && shootBullet == false)
 			{
+				animator.SetTrigger("Attack");
 				GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().shootBullet();
 				shootBullet = true;
 			}
 
 			if (Input.GetMouseButton(1) && shootCannon == false)
 			{
+				animator.SetTrigger("Attack");
 				GameObject.Find("rmbBullet").GetComponent<iceCannonSpawner>().shootBullet();
 				shootCannon = true;
 			}
