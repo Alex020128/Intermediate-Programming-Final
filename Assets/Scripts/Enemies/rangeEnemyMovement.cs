@@ -47,6 +47,7 @@ public class rangeEnemyMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -155,6 +156,7 @@ public class rangeEnemyMovement : MonoBehaviour
         //let one of the waiting enemy bullets to be active
         for (int i = 0; i < bullets.Length; i++)
         {
+            animator.SetTrigger("Attack");
             if (!bullets[i].activeInHierarchy)
             {
                 bullets[i].SetActive(true);
@@ -174,6 +176,7 @@ public class rangeEnemyMovement : MonoBehaviour
                                                           && gameManager.Instance.playerInvinsible == false
                                                           && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
+            animator.SetTrigger("Attack");
             gameManager.Instance.playerHealth -= 2;
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();

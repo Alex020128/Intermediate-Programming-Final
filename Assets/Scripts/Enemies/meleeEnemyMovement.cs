@@ -9,7 +9,7 @@ public class meleeEnemyMovement : MonoBehaviour
     public float patrolSpeed;
     public float followSpeed;
     public float lineOfSite;
-    //public Animator animator;
+    public Animator animator;
 
     private Transform player;
     private Transform pet;
@@ -31,6 +31,7 @@ public class meleeEnemyMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Start()
@@ -54,9 +55,10 @@ public class meleeEnemyMovement : MonoBehaviour
         //audioSource.Play();
     }
 
+
     private void checkJump()
     {
-        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, 1 << 2);
+        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1f, 1 << 2);
 
         //Debug.Log(grounedRay.collider.gameObject);
 
@@ -77,7 +79,7 @@ public class meleeEnemyMovement : MonoBehaviour
 
     private void checkEdge()
     {
-        RaycastHit2D edgeRay = Physics2D.Raycast(edgeDetector.position, Vector2.down, 1.5f, 1 << 6);
+        RaycastHit2D edgeRay = Physics2D.Raycast(edgeDetector.position, Vector2.down, 1f, 1 << 6);
 
         //Debug.Log(grounedRay.collider.gameObject);
 
@@ -221,12 +223,12 @@ public class meleeEnemyMovement : MonoBehaviour
         float distanceToPlayer = player.position.x - transform.position.x;
         if (distanceToPlayer > 1)
         {
-            transform.rotation = Quaternion.Euler(0, -180, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
         if (distanceToPlayer < -1)
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.rotation = Quaternion.Euler(0, -180, 0);
         }
     }
     public void OnCollisionStay2D(Collision2D collision)
@@ -237,6 +239,7 @@ public class meleeEnemyMovement : MonoBehaviour
                                                           && gameManager.Instance.playerInvinsible == false
                                                           && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
+            animator.SetTrigger("Attack");
             gameManager.Instance.playerHealth -= 2;
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
@@ -270,6 +273,7 @@ public class meleeEnemyMovement : MonoBehaviour
 
         if (canJump)
         {
+            animator.SetTrigger("Jump");
             rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
             Debug.Log("1");
         }

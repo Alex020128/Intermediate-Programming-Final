@@ -54,6 +54,7 @@ public class petMovement : MonoBehaviour
                                                && gameManager.Instance.petInvinsible == false
                                                && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
+            collision.gameObject.GetComponent<Animator>().SetTrigger("Attack");
             gameManager.Instance.petHealth -= 2;
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
