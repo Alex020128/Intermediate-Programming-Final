@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c805e763fbb74ef4a9235eaa8450d7a5
+guid: 794df964f9f8f5f43a8a2bbcb1acf5f9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,7 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BulletsSheet_0
+      name: petIdleSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -130,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 602d02a3b4988a949a2c5fb4f98d02a7
-      internalID: 1585969367
+      spriteID: 9cce61cd6a603b544852f499fa587e6f
+      internalID: -501882248
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BulletsSheet_1
+      name: petIdleSheet_1
       rect:
         serializedVersion: 2
         x: 16
@@ -151,14 +151,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4213f71e7e6738a4ba2ec2768e529691
-      internalID: -1647159452
+      spriteID: 1297d5881de4443479c76b8b4955a0fb
+      internalID: 252661899
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BulletsSheet_2
+      name: petIdleSheet_2
       rect:
         serializedVersion: 2
         x: 32
@@ -172,8 +172,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a70b840aea3e71943928426ebaad5519
-      internalID: -2032550056
+      spriteID: 5aaaa29819f687f4db242dd140b3dd15
+      internalID: -1892435411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: petIdleSheet_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16f11bd096e1521449791eec22617415
+      internalID: -677343230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: petIdleSheet_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13132a23a943faa44b602f3191bfbc06
+      internalID: 1956731738
       vertices: []
       indices: 
       edges: []
@@ -189,9 +231,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BulletsSheet_1: -1647159452
-      BulletsSheet_0: 1585969367
-      BulletsSheet_2: -2032550056
+      petIdleSheet_0: -501882248
+      petIdleSheet_3: -677343230
+      petIdleSheet_2: -1892435411
+      petIdleSheet_1: 252661899
+      petIdleSheet_4: 1956731738
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

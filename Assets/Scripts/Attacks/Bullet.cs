@@ -76,7 +76,14 @@ public class Bullet : MonoBehaviour
             transform.rotation = Quaternion.Euler(targetRotation);
 
             //Let the bullet starts from the player
-            transform.localPosition = new Vector3(0, 0, 0);
+            if (GameObject.Find("Player").GetComponent<playerMovement>().facingRight)
+            {
+                transform.localPosition = new Vector3(0.7f, 0.3f, 0);
+            }
+            else
+            {
+                transform.localPosition = new Vector3(-0.7f, 0.3f, 0);
+            }
         }
     }
         

@@ -33,6 +33,7 @@ public class enemyBullet : MonoBehaviour
                                                  && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
             gameManager.Instance.playerHealth -= 1;
+            GameObject.Find("Player").GetComponent<Animator>().SetTrigger("Hurt");
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
@@ -45,6 +46,7 @@ public class enemyBullet : MonoBehaviour
                                               && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
             gameManager.Instance.petHealth -= 1;
+            GameObject.Find("Pet").GetComponent<Animator>().SetTrigger("Hurt");
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));

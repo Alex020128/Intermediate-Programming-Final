@@ -8,6 +8,7 @@ public class slowDown : MonoBehaviour
     public bool frozen;
     
     public Rigidbody2D rb;
+    public Animator animator;
 
     Coroutine speedDownCoroutine;
     Coroutine frozenCoroutine;
@@ -15,7 +16,8 @@ public class slowDown : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
     private IEnumerator speedDownDebuff(float wait)
     {
@@ -28,6 +30,7 @@ public class slowDown : MonoBehaviour
         //Make sure that the death particle will be shown
         yield return new WaitForSeconds(wait);
         frozen = false;
+        animator.SetBool("Frozen", false);
     }
 
     // Update is called once per frame
@@ -41,6 +44,7 @@ public class slowDown : MonoBehaviour
 
         if (frozen)
         {
+            animator.SetBool("Frozen",true);
             frozenCoroutine = StartCoroutine(frozenDebuff(3));
             rb.velocity = new Vector2(0,0);
         }

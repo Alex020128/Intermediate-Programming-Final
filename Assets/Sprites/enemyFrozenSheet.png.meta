@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c805e763fbb74ef4a9235eaa8450d7a5
+guid: f9a2d2db10bec7347aa58e7125ec38c7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,7 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BulletsSheet_0
+      name: enemyFrozenSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -130,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 602d02a3b4988a949a2c5fb4f98d02a7
-      internalID: 1585969367
+      spriteID: 0d8dd37019ed7c54bb0bbfe90fa9ca34
+      internalID: 347680334
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BulletsSheet_1
+      name: enemyFrozenSheet_1
       rect:
         serializedVersion: 2
         x: 16
@@ -151,29 +151,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4213f71e7e6738a4ba2ec2768e529691
-      internalID: -1647159452
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: BulletsSheet_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a70b840aea3e71943928426ebaad5519
-      internalID: -2032550056
+      spriteID: 3440cd49cd60cbe4c93068b4edc521b4
+      internalID: -1130129447
       vertices: []
       indices: 
       edges: []
@@ -189,9 +168,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BulletsSheet_1: -1647159452
-      BulletsSheet_0: 1585969367
-      BulletsSheet_2: -2032550056
+      enemyFrozenSheet_1: -1130129447
+      enemyFrozenSheet_0: 347680334
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

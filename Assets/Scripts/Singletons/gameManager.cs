@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class gameManager : Singleton<gameManager>
 {
@@ -100,13 +101,14 @@ public class gameManager : Singleton<gameManager>
 
         if (levelCleared)
         {
+            GameObject.Find("Pet").GetComponent<Animator>().SetTrigger("Attack");
+            Camera.main.transform.DOShakePosition(2f, new Vector3(0.75f, 0.75f, 0));
             petDemand += 5;
             seedMax += 5;
             spawnWave += 1;
             seedSpawner.GetComponent<seedSpawner>().spawnSome();
             enemySpawner.GetComponent<enemySpawner>().killAllEnemies();
             enemySpawner.GetComponent<enemySpawner>().spawnWave();
-
             levelCleared = false;
         }
         

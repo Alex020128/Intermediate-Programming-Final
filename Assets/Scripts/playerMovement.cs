@@ -12,7 +12,7 @@ public class playerMovement : MonoBehaviour
 	public bool isGrounded;            // Whether or not the player is grounded.
 	private Rigidbody2D rb;
 	public Animator animator;
-	private bool facingRight = true;  // For determining which way the player is currently facing.
+	public bool facingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 currentVelocity = Vector3.zero;
 
 	public GameObject pet;

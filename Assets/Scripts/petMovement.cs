@@ -6,6 +6,7 @@ using DG.Tweening;
 public class petMovement : MonoBehaviour
 {
     private Transform player;
+    public Animator animator;
 
     Coroutine carryCoroutine;
 
@@ -19,6 +20,7 @@ public class petMovement : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").transform;
+        animator = GetComponent<Animator>();
     }
 
     public void OnTriggerStay2D(Collider2D collision)
@@ -54,6 +56,7 @@ public class petMovement : MonoBehaviour
                                                && gameManager.Instance.petInvinsible == false
                                                && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
+            animator.SetTrigger("Hurt");
             collision.gameObject.GetComponent<Animator>().SetTrigger("Attack");
             gameManager.Instance.petHealth -= 2;
             //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
@@ -93,7 +96,7 @@ public class petMovement : MonoBehaviour
 
         if (carrying)
         {
-            transform.position = player.position;
+            transform.position = new Vector2(player.position.x, player.position.y + 0.4f);
             feeding = true;
             feedTime = 6;
         }

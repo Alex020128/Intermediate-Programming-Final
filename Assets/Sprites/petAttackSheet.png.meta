@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c805e763fbb74ef4a9235eaa8450d7a5
+guid: 18d3894dde3a4c64cba0fc103d8ca102
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,7 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BulletsSheet_0
+      name: petAttackSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -130,14 +130,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 602d02a3b4988a949a2c5fb4f98d02a7
-      internalID: 1585969367
+      spriteID: 03d7aa16824bc6545aca83ad864ec85b
+      internalID: 706710993
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BulletsSheet_1
+      name: petAttackSheet_1
       rect:
         serializedVersion: 2
         x: 16
@@ -151,14 +151,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4213f71e7e6738a4ba2ec2768e529691
-      internalID: -1647159452
+      spriteID: 808aef103acb4614c8e297b8b0029ae1
+      internalID: -1897217044
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BulletsSheet_2
+      name: petAttackSheet_2
       rect:
         serializedVersion: 2
         x: 32
@@ -172,8 +172,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a70b840aea3e71943928426ebaad5519
-      internalID: -2032550056
+      spriteID: 7dea62f081c559a48ab81def3bda6f33
+      internalID: -1635627840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: petAttackSheet_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03d79f2fa2bac7744b42e77662339045
+      internalID: -446032184
       vertices: []
       indices: 
       edges: []
@@ -189,9 +210,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      BulletsSheet_1: -1647159452
-      BulletsSheet_0: 1585969367
-      BulletsSheet_2: -2032550056
+      petAttackSheet_2: -1635627840
+      petAttackSheet_3: -446032184
+      petAttackSheet_1: -1897217044
+      petAttackSheet_0: 706710993
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
