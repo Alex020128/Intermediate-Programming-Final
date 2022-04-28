@@ -216,7 +216,6 @@ public class meleeEnemyMovement : MonoBehaviour
         }
 
         checkJump();
-        ChangeDirection();
     }
     protected void ChangeDirection()
     {
@@ -231,6 +230,7 @@ public class meleeEnemyMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, -180, 0);
         }
     }
+
     public void OnCollisionStay2D(Collision2D collision)
     {
         //Decrease player health, emits particle, set player invincible time, trigger sreenshake when hits the player

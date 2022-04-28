@@ -30,6 +30,12 @@ public class Seed : MonoBehaviour
         collecting = false;
     }
 
+    public void OnDrawGizmos()
+	{
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.25f), Vector2.down, Color.green);
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.up, Color.green);
+	}
+
     // Update is called once per frame
     void Update()
     {

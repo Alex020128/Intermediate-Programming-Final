@@ -217,6 +217,7 @@ public class rangeEnemyMovement : MonoBehaviour
             shootBullet();
             nextFireTime = Time.time + fireRate;
         }
+        facePlayer();
     }
     public void attackPet()
     {
@@ -244,6 +245,19 @@ public class rangeEnemyMovement : MonoBehaviour
     public void changeDirection()
     {
         direction = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)).normalized;
+    }
+    public void facePlayer()
+    {
+        float distanceToPlayer = player.position.x - transform.position.x;
+        if (distanceToPlayer > 1)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        if (distanceToPlayer < -1)
+        {
+            transform.rotation = Quaternion.Euler(0, -180, 0);
+        }
     }
 
     private IEnumerator pantrolWait(float wait)

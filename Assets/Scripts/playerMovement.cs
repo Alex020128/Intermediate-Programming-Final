@@ -142,12 +142,12 @@ public class playerMovement : MonoBehaviour
 
 			if (pet.GetComponent<petMovement>().carrying)
 			{
-				jumpForce = 650f;
+				jumpForce = 700f;
 				moveSpeed = 5f;
 			}
 			else
 			{
-				jumpForce = 700f;
+				jumpForce = 800f;
 				moveSpeed = 7f;
 			}
 

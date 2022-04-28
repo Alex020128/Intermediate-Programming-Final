@@ -8,11 +8,14 @@ public class Trap : MonoBehaviour
     [SerializeField]
     public float lifeTimer;
 
+    public Animator animator;
+
     public bool enemyTrapped;
 
     private void Awake()
     {
         lifeTimer = 20.0f;
+        animator = GetComponent<Animator>();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -35,6 +38,15 @@ public class Trap : MonoBehaviour
     {
         //The bullet can't fly forever, so a lifetimer is set
         lifeTimer -= Time.deltaTime;
+
+        if (enemyTrapped)
+        {
+            animator.SetBool("Trapped", true);
+        }
+        else
+        {
+            animator.SetBool("Trapped", false);
+        }
 
         if (lifeTimer <= 0)
         {

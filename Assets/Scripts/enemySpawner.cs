@@ -43,7 +43,7 @@ public class enemySpawner : MonoBehaviour
         //Spawn 3 seeds in the space
         for (int w = 0; w < gameManager.Instance.spawnWave; w++)
         {
-            int spawnWhere = Random.Range(0, 6);
+            int spawnWhere = Random.Range(0, spawnPoints.Count);
             GameObject spawnPoint = spawnPoints[spawnWhere];
 
             //Spawn 3 seeds in the space

@@ -101,7 +101,7 @@ public class petMovement : MonoBehaviour
             feedTime = 6;
         }
 
-        if(seedEaten >= gameManager.Instance.petDemand)
+        if (seedEaten >= gameManager.Instance.petDemand)
         {
             gameManager.Instance.levelCleared = true;
             seedEaten = 0;

@@ -115,19 +115,16 @@ public class seedSpawner : MonoBehaviour
                 prefabToSpawn = prefabSeed;
             }
 
-            GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
+            GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-13, 13), Random.Range(-4, 22)), Quaternion.identity);
             seeds.Add(newSeed);
-            //seeds[i].SetActive(false);
            
             bool canSpawn = false;
 
-            //Debug.Log(grounedRay.collider.gameObject);
-
             while (!canSpawn)
             {
-                newSeed.transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
-                RaycastHit2D grounedRay = Physics2D.Raycast(newSeed.transform.position, Vector2.down, 0.5f, 1 << 6);
-                RaycastHit2D ceilingRay = Physics2D.Raycast(newSeed.transform.position, Vector2.up, 0.5f, 1 << 6);
+                newSeed.transform.position = new Vector2(Random.Range(-13, 13), Random.Range(-4, 22));
+                RaycastHit2D grounedRay = Physics2D.Raycast(new Vector2(newSeed.transform.position.x, newSeed.transform.position.y - 0.25f), Vector2.down, 0.5f, 1 << 6);
+                RaycastHit2D ceilingRay = Physics2D.Raycast(new Vector2(newSeed.transform.position.x, newSeed.transform.position.y + 0.5f), Vector2.up, 0.5f, 1 << 6);
 
                 if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<jumpObject>() != null
                                                 && ceilingRay.collider == null)
@@ -137,7 +134,6 @@ public class seedSpawner : MonoBehaviour
                 }
                 else
                 {
-                    //seeds[i].transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
                     canSpawn = false;
                 }
             }
