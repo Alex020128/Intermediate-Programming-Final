@@ -45,7 +45,7 @@ public class meleeEnemyMovement : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, lineOfSite);
+        Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + 0.5f), lineOfSite);
     }
 
     public void hurtSFX()
@@ -58,7 +58,7 @@ public class meleeEnemyMovement : MonoBehaviour
 
     private void checkJump()
     {
-        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 1f, 1 << 2);
+        RaycastHit2D grounedRay = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.down, 1f, 1 << 2);
 
         //Debug.Log(grounedRay.collider.gameObject);
 
@@ -95,7 +95,9 @@ public class meleeEnemyMovement : MonoBehaviour
     }
     private void checkPlayer()
     {
-        RaycastHit2D[] sightRay = Physics2D.RaycastAll(transform.position, player.position - transform.position, lineOfSite, (1 << 6 | 1 << 0));
+        RaycastHit2D[] sightRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.5f),
+                                                       new Vector2(player.position.x, player.position.y + 0.5f) - new Vector2(transform.position.x, transform.position.y + 0.5f),
+                                                       lineOfSite, (1 << 6 | 1 << 0));
 
         if (Vector3.Distance(player.position, transform.position) <= lineOfSite && sightRay[0].collider.gameObject.GetComponent<playerMovement>() != null)
         {
@@ -108,7 +110,9 @@ public class meleeEnemyMovement : MonoBehaviour
     }
     private void checkPet()
     {
-        RaycastHit2D[] sightRay = Physics2D.RaycastAll(transform.position, pet.position - transform.position, lineOfSite, (1 << 6 | 1 << 0));
+        RaycastHit2D[] sightRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.5f),
+                                                       new Vector2(pet.position.x, pet.position.y + 0.5f) - new Vector2(transform.position.x, transform.position.y + 0.5f),
+                                                       lineOfSite, (1 << 6 | 1 << 0));
 
         if (Vector3.Distance(pet.position, transform.position) <= lineOfSite && sightRay[0].collider.gameObject.GetComponent<petMovement>() != null)
         {
@@ -154,9 +158,10 @@ public class meleeEnemyMovement : MonoBehaviour
         }
 
 
-        Debug.DrawRay(transform.position, Vector2.down, myCol1);
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.down, myCol1);
 
-        Debug.DrawRay(transform.position, player.position - transform.position, myCol2);
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.5f),
+                      new Vector2(player.position.x, player.position.y + 0.5f) - new Vector2(transform.position.x, transform.position.y + 0.5f), myCol2);
 
         Debug.DrawRay(edgeDetector.position, Vector2.down, myCol3);
     }
@@ -257,14 +262,12 @@ public class meleeEnemyMovement : MonoBehaviour
 
         checkPlayer();
         checkPet();
-        //string clipName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-        //float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
-        if (findPlayer && !findPet) //distanceFromPlayer < lineOfSite
+        if (findPlayer && !findPet)
         {
             movementControl();
         }
-        else if(findPet) //distanceFromPlayer < lineOfSite
+        else if(findPet)
         {
             attackPet();
         }else
@@ -276,7 +279,6 @@ public class meleeEnemyMovement : MonoBehaviour
         {
             animator.SetTrigger("Jump");
             rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
-            Debug.Log("1");
         }
     }
 

@@ -84,13 +84,13 @@ public class enemyBullet : MonoBehaviour
         {
             //Sets the rotation of the bullet towards the player
             Vector3 playerPosition = player.position;
-            Vector2 direction = playerPosition - transform.position;
+            Vector2 direction = new Vector3(playerPosition.x, playerPosition.y + 0.5f) - transform.position;
             float angle = Vector2.SignedAngle(Vector2.right, direction);
             targetRotation = new Vector3(0, 0, angle);
             transform.rotation = Quaternion.Euler(targetRotation);
 
             //Let the bullet starts from the player
-            transform.localPosition = new Vector3(0, 0, 0);
+            transform.localPosition = new Vector3(0, 0.5f, 0);
         }
     }
 }

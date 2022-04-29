@@ -195,7 +195,7 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
@@ -204,15 +204,15 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.0625, y: 0.4375}
-      - {x: -0.4375, y: 0.4375}
-      - {x: -0.5, y: 0.3125}
-      - {x: -0.5, y: -0.375}
-      - {x: -0.375, y: -0.5}
-      - {x: 0.25, y: -0.5}
-      - {x: 0.4375, y: -0.3125}
-      - {x: 0.375, y: 0.1875}
-      - {x: 0.1875, y: 0.375}
+    - - {x: -0.0625, y: 0.9375}
+      - {x: -0.4375, y: 0.9375}
+      - {x: -0.5, y: 0.8125}
+      - {x: -0.5, y: 0.125}
+      - {x: -0.375, y: 0}
+      - {x: 0.25, y: 0}
+      - {x: 0.4375, y: 0.1875}
+      - {x: 0.375, y: 0.6875}
+      - {x: 0.1875, y: 0.875}
 --- !u!199 &2885858668322450939
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5007,6 +5007,7 @@ MonoBehaviour:
   speedDown: 0
   frozen: 0
   rb: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &514011451560855864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5021,6 +5022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gotTrapped: 0
   rb: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &4750234066424782710
 MonoBehaviour:
   m_ObjectHideFlags: 0

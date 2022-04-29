@@ -49,6 +49,6 @@ public class frostCircle : MonoBehaviour
             casting = false;
         }
 
-        this.gameObject.transform.position = GameObject.Find("Player").transform.position;
+        this.gameObject.transform.position = new Vector2(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y + 0.5f);
     }
 }

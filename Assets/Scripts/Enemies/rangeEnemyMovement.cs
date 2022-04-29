@@ -59,7 +59,7 @@ public class rangeEnemyMovement : MonoBehaviour
         //Spawn a pool of enemy bullets
         for (int i = 0; i < bullets.Length; i++)
         {
-            GameObject newBullet = Instantiate(prefabToSpawn, transform.position, Quaternion.identity, bulletParent.transform);
+            GameObject newBullet = Instantiate(prefabToSpawn, new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity, bulletParent.transform);
             bullets[i] = newBullet;
             bullets[i].SetActive(false);
         }
@@ -73,7 +73,7 @@ public class rangeEnemyMovement : MonoBehaviour
 
     private void checkGround()
     {
-        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 5f, 1 << 2);
+        RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 3.5f, 1 << 2);
 
         //Debug.Log(grounedRay.collider.gameObject);
 
@@ -84,7 +84,7 @@ public class rangeEnemyMovement : MonoBehaviour
             changeDirection();
         }
 
-        RaycastHit2D ceilingRay = Physics2D.Raycast(transform.position, Vector2.up, 1.5f, 1 << 2);
+        RaycastHit2D ceilingRay = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.up, 1.5f, 1 << 2);
 
         //Debug.Log(grounedRay.collider.gameObject);
 
@@ -98,7 +98,9 @@ public class rangeEnemyMovement : MonoBehaviour
 
     private void checkPlayer()
     {
-        RaycastHit2D[] sightRay = Physics2D.RaycastAll(transform.position, player.position - transform.position, lineOfSite, (1 << 6 | 1 << 0));
+        RaycastHit2D[] sightRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.5f),
+                                                       new Vector2(player.position.x, player.position.y + 0.5f) - new Vector2(transform.position.x, transform.position.y + 0.5f),
+                                                       lineOfSite, (1 << 6 | 1 << 0));
 
         if (Vector3.Distance(player.position, transform.position) <= lineOfSite && sightRay[0].collider.gameObject.GetComponent<playerMovement>() != null)
         {
@@ -111,7 +113,9 @@ public class rangeEnemyMovement : MonoBehaviour
     }
     private void checkPet()
     {
-        RaycastHit2D[] sightRay = Physics2D.RaycastAll(transform.position, pet.position - transform.position, lineOfSite, (1 << 6 | 1 << 0));
+        RaycastHit2D[] sightRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.5f),
+                                                       new Vector2(pet.position.x, pet.position.y + 0.5f) - new Vector2(transform.position.x, transform.position.y + 0.5f),
+                                                       lineOfSite, (1 << 6 | 1 << 0));
 
         if (Vector3.Distance(pet.position, transform.position) <= lineOfSite && sightRay[0].collider.gameObject.GetComponent<petMovement>() != null)
         {
@@ -137,10 +141,12 @@ public class rangeEnemyMovement : MonoBehaviour
             myCol1 = Color.red;
         }
 
-        Debug.DrawRay(transform.position, player.position - transform.position, myCol1);
+        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.5f),
+                      new Vector2(player.position.x, player.position.y + 0.5f) - new Vector2(transform.position.x, transform.position.y + 0.5f),
+                      myCol1);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, shootingRange);
+        Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + 0.5f), shootingRange);
     }
 
     public void hurtSFX()
@@ -240,6 +246,7 @@ public class rangeEnemyMovement : MonoBehaviour
             shootBullet();
             nextFireTime = Time.time + fireRate;
         }
+
     }
 
     public void changeDirection()
@@ -291,14 +298,11 @@ public class rangeEnemyMovement : MonoBehaviour
     {
         checkPlayer();
         checkPet();
-        //string clipName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-
-        //float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
-        if (findPlayer && !findPet) //distanceFromPlayer < lineOfSite
+        if (findPlayer && !findPet)
         {
             movementControl();
         }
-        else if (findPet) //distanceFromPlayer < lineOfSite
+        else if (findPet)
         {
             attackPet();
         }

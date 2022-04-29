@@ -22,7 +22,7 @@ public class frosting : MonoBehaviour
     {
         if(frostCircle != null)
         {
-            if (frostCircle.GetComponent<frostCircle>().casting && Vector3.Distance(player.transform.position, transform.position) <= 5)
+            if (frostCircle.GetComponent<frostCircle>().casting && Vector3.Distance(player.transform.position, transform.position) <= 3)
             {
                 rb.velocity *= 0.3f;
             }

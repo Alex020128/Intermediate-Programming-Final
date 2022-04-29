@@ -7,6 +7,7 @@ public class trapped : MonoBehaviour
     public bool gotTrapped;
 
     public Rigidbody2D rb;
+    public Animator animator;
 
     Coroutine trappedCoroutine;
 
@@ -14,12 +15,14 @@ public class trapped : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
     private IEnumerator trappedDebuff(float wait)
     {
         //Make sure that the death particle will be shown
         yield return new WaitForSeconds(wait);
         gotTrapped = false;
+        animator.SetBool("Trapped", false);
     }
 
 
@@ -28,6 +31,7 @@ public class trapped : MonoBehaviour
     {
         if (gotTrapped)
         {
+            animator.SetBool("Trapped", true);
             trappedCoroutine = StartCoroutine(trappedDebuff(10));
             rb.velocity = new Vector2(0, 0);
         }

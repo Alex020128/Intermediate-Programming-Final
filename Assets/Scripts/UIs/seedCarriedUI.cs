@@ -19,7 +19,7 @@ public class seedCarriedUI : MonoBehaviour
     {
         if(gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
-            seedCarried.text = "" + gameManager.Instance.seedCarried;
+            seedCarried.text = "Seeds Carried: " + gameManager.Instance.seedCarried;
         }
         else
         {
