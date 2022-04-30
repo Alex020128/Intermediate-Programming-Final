@@ -32,6 +32,8 @@ public class enemySpawner : MonoBehaviour
         }
     }
 
+    Coroutine killCoroutine;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,13 +74,25 @@ public class enemySpawner : MonoBehaviour
         {
             if(enemies[i].GetComponent<meleeEnemyMovement>() != null)
             {
+                enemies[i].GetComponent<meleeEnemyMovement>().deathParticle.Emit(10);
                 scoreManager.Instance.meleeEnemyKills += 1;
             }
             if (enemies[i].GetComponent<rangeEnemyMovement>() != null)
             {
+                enemies[i].GetComponent<rangeEnemyMovement>().deathParticle.Emit(10);
                 scoreManager.Instance.rangeEnemyKills += 1;
             }
 
+            killCoroutine = StartCoroutine(killAll(1f));
+        }
+    }
+
+    private IEnumerator killAll(float wait)
+    {
+        //Destroy all the active enemies
+        yield return new WaitForSeconds(wait);
+        for (int i = 0; i < enemies.Count; i++)
+        {
             Destroy(enemies[i]);
         }
     }

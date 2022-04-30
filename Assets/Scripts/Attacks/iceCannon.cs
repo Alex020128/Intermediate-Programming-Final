@@ -25,8 +25,15 @@ public class iceCannon : MonoBehaviour
         //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
         if (collision != null && collision.gameObject.tag == "Enemy")
         {
-            //particle.Emit(5);
-            //Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
+            if (collision.gameObject.GetComponent<meleeEnemyMovement>() != null)
+            {
+                collision.gameObject.GetComponent<meleeEnemyMovement>().slowDownParticle.Emit(3);
+            }
+            if (collision.gameObject.GetComponent<rangeEnemyMovement>() != null)
+            {
+                collision.gameObject.GetComponent<rangeEnemyMovement>().slowDownParticle.Emit(3);
+            }
+
             if (collision.gameObject.GetComponent<slowDown>().speedDown == false)
             {
                 collision.gameObject.GetComponent<slowDown>().speedDown = true;

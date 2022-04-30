@@ -7,6 +7,7 @@ public class petMovement : MonoBehaviour
 {
     private Transform player;
     public Animator animator;
+    public ParticleSystem hurtParticle;
 
     Coroutine carryCoroutine;
 
@@ -21,6 +22,7 @@ public class petMovement : MonoBehaviour
     {
         player = GameObject.Find("Player").transform;
         animator = GetComponent<Animator>();
+        hurtParticle = GetComponent<ParticleSystem>();
     }
 
     public void OnTriggerStay2D(Collider2D collision)
@@ -59,7 +61,7 @@ public class petMovement : MonoBehaviour
             animator.SetTrigger("Hurt");
             collision.gameObject.GetComponent<Animator>().SetTrigger("Attack");
             gameManager.Instance.petHealth -= 2;
-            //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            hurtParticle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             gameManager.Instance.petInvinsibleTime = 0;

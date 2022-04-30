@@ -34,7 +34,7 @@ public class enemyBullet : MonoBehaviour
         {
             gameManager.Instance.playerHealth -= 1;
             GameObject.Find("Player").GetComponent<Animator>().SetTrigger("Hurt");
-            //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            GameObject.Find("Player").GetComponent<playerMovement>().hurtParticle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.playerInvinsibleTime = 0;
@@ -47,7 +47,7 @@ public class enemyBullet : MonoBehaviour
         {
             gameManager.Instance.petHealth -= 1;
             GameObject.Find("Pet").GetComponent<Animator>().SetTrigger("Hurt");
-            //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            GameObject.Find("Pet").GetComponent<petMovement>().hurtParticle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.petInvinsibleTime = 0;

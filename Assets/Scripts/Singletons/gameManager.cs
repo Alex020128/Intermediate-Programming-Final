@@ -101,6 +101,7 @@ public class gameManager : Singleton<gameManager>
 
         if (levelCleared)
         {
+            
             GameObject.Find("Pet").GetComponent<Animator>().SetTrigger("Attack");
             Camera.main.transform.DOShakePosition(2f, new Vector3(0.75f, 0.75f, 0));
             petDemand += 5;
@@ -108,7 +109,7 @@ public class gameManager : Singleton<gameManager>
             spawnWave += 1;
             seedSpawner.GetComponent<seedSpawner>().spawnSome();
             enemySpawner.GetComponent<enemySpawner>().killAllEnemies();
-            enemySpawner.GetComponent<enemySpawner>().spawnWave();
+            StartCoroutine(GameObject.Find("countDownUI").GetComponent<countDownUI>().countDownCoroutineLoop());
             levelCleared = false;
         }
         
@@ -136,11 +137,13 @@ public class gameManager : Singleton<gameManager>
         {
             playerDeath = true;
         }
+        
         //Pet death
         if (petHealth <= 0)
         {
             petDeath = true;
         }
+       
 
         //Player's health can't be over 100
         if (playerHealth > 100)
@@ -158,6 +161,8 @@ public class gameManager : Singleton<gameManager>
             if ((playerDeath || petDeath))
             {
                 endingCoroutine = StartCoroutine(endingScreen(3f));
+                GameObject.Find("Player").GetComponent<Animator>().SetTrigger("Death");
+                GameObject.Find("Pet").GetComponent<Animator>().SetTrigger("Death");
             }
         }
 

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.UI;
+using TMPro;
 using UnityEngine.Events;
 
 public class playerMovement : MonoBehaviour
@@ -12,6 +14,7 @@ public class playerMovement : MonoBehaviour
 	public bool isGrounded;            // Whether or not the player is grounded.
 	private Rigidbody2D rb;
 	public Animator animator;
+	public ParticleSystem hurtParticle;
 	public bool facingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 currentVelocity = Vector3.zero;
 
@@ -34,11 +37,13 @@ public class playerMovement : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
+		hurtParticle = GetComponent<ParticleSystem>();
 
 		pet = GameObject.Find("Pet");
 
 		equipment = "None";
-}
+		GameObject.Find("qKeyEquipment").GetComponent<TMP_Text>().text = "";
+	}
 
 	private void FixedUpdate()
 	{
@@ -168,6 +173,10 @@ public class playerMovement : MonoBehaviour
 
 			if (equipment == "Trap")
 			{
+				GameObject.Find("attacksUI").GetComponent<Animator>().SetBool("Trap",true);
+				GameObject.Find("attacksUI").GetComponent<Animator>().SetBool("Frost", false);
+				GameObject.Find("qKeyEquipment").GetComponent<TMP_Text>().text = "Vine Traps";
+
 				if (Input.GetKeyDown(KeyCode.Q) && placeTrap == false && isGrounded == true)
 				{
 					GameObject.Find("Trap").GetComponent<trapSpawner>().placeTrap();
@@ -177,6 +186,10 @@ public class playerMovement : MonoBehaviour
 
 			if (equipment == "frostCircle")
 			{
+				GameObject.Find("attacksUI").GetComponent<Animator>().SetBool("Trap", false);
+				GameObject.Find("attacksUI").GetComponent<Animator>().SetBool("Frost", true);
+				GameObject.Find("qKeyEquipment").GetComponent<TMP_Text>().text = "Frost Field";
+
 				if (Input.GetKeyDown(KeyCode.Q) && castCircle == false)
 				{
 					GameObject.Find("displayCircle").GetComponent<frostCircle>().castCircle();

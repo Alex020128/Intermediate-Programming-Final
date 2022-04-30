@@ -9,12 +9,15 @@ public class meleeEnemyMovement : MonoBehaviour
     public float patrolSpeed;
     public float followSpeed;
     public float lineOfSite;
+    
     public Animator animator;
-
     private Transform player;
     private Transform pet;
     public Transform edgeDetector;
     public Rigidbody2D rb;
+    public ParticleSystem knockBackParticle;
+    public ParticleSystem slowDownParticle;
+    public ParticleSystem deathParticle;
 
     public bool canJump;
     public bool canPatrol;
@@ -247,7 +250,7 @@ public class meleeEnemyMovement : MonoBehaviour
             animator.SetTrigger("Attack");
             gameManager.Instance.playerHealth -= 2;
             GameObject.Find("Player").GetComponent<Animator>().SetTrigger("Hurt");
-            //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            GameObject.Find("Player").GetComponent<playerMovement>().hurtParticle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.playerInvinsibleTime = 0;

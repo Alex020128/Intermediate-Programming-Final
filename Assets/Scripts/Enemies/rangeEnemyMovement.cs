@@ -21,7 +21,9 @@ public class rangeEnemyMovement : MonoBehaviour
     public Vector2 direction;
     private Transform player;
     private Transform pet;
-    private ParticleSystem particle;
+    public ParticleSystem knockBackParticle;
+    public ParticleSystem slowDownParticle;
+    public ParticleSystem deathParticle;
     private Animator animator;
 
     Coroutine waitCoroutine;
@@ -66,7 +68,6 @@ public class rangeEnemyMovement : MonoBehaviour
 
         //The health of the enemy increases over time
 
-        particle = GetComponent<ParticleSystem>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -185,7 +186,7 @@ public class rangeEnemyMovement : MonoBehaviour
             animator.SetTrigger("Attack");
             gameManager.Instance.playerHealth -= 2;
             GameObject.Find("Player").GetComponent<Animator>().SetTrigger("Hurt");
-            //GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            GameObject.Find("Player").GetComponent<playerMovement>().hurtParticle.Emit(5);
             //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.playerInvinsibleTime = 0;
@@ -246,7 +247,6 @@ public class rangeEnemyMovement : MonoBehaviour
             shootBullet();
             nextFireTime = Time.time + fireRate;
         }
-
     }
 
     public void changeDirection()

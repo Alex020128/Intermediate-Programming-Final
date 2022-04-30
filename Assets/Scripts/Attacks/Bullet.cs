@@ -15,6 +15,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float playerBulletForce = 70f;
 
     public Rigidbody2D rb;
+    private ParticleSystem knockBackParticle;
  //Target position
     public Vector3 targetRotation;
 
@@ -22,6 +23,7 @@ public class Bullet : MonoBehaviour
     {
         lifeTimer = 3.0f;
         rb = GetComponent<Rigidbody2D>();
+        knockBackParticle = GetComponent<ParticleSystem>();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -29,7 +31,14 @@ public class Bullet : MonoBehaviour
         //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
         if (collision != null && collision.gameObject.tag == "Enemy")
         {
-            //particle.Emit(5);
+            if(collision.gameObject.GetComponent<meleeEnemyMovement>() != null)
+            {
+                collision.gameObject.GetComponent<meleeEnemyMovement>().knockBackParticle.Emit(3);
+            }
+            if (collision.gameObject.GetComponent<rangeEnemyMovement>() != null)
+            {
+                collision.gameObject.GetComponent<rangeEnemyMovement>().knockBackParticle.Emit(3);
+            }
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(rb.velocity.normalized * playerBulletForce, ForceMode2D.Impulse);
             this.gameObject.SetActive(false);
         }
