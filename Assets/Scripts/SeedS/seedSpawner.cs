@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class seedSpawner : MonoBehaviour
 {
-    //Bullet stats
+    //Seeds stats
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]

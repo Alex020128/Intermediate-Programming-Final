@@ -21,6 +21,7 @@ public class Seed : MonoBehaviour
             {
                 gameManager.Instance.seedCarried += 1;
                 gameManager.Instance.petHealth += 3;
+                GameObject.Find("Player").GetComponent<playerMovement>().seedSFX();
                 Destroy(this.gameObject);
             }
         }

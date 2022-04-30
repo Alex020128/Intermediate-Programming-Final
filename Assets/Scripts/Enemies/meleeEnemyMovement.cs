@@ -25,9 +25,13 @@ public class meleeEnemyMovement : MonoBehaviour
     public bool findPlayer;
     public bool findPet;
 
-    //public AudioSource audioSource;
+    //Enemy SFXs
+    public AudioSource audioSource;
+    public AudioClip knockBackSound;
+    public AudioClip frostSound;
+    public AudioClip deathSound;
+    public AudioClip attackSound;
 
-    //public AudioClip hurtSound;
 
     // Start is called before the first frame update
 
@@ -35,6 +39,7 @@ public class meleeEnemyMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -51,13 +56,36 @@ public class meleeEnemyMovement : MonoBehaviour
         Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + 0.5f), lineOfSite);
     }
 
-    public void hurtSFX()
+    public void knockBackSFX()
     {
-        //audioSource.Stop();
-        //audioSource.clip = hurtSound;
-        //audioSource.Play();
+        //Play the enemy knockback SFX
+        audioSource.Stop();
+        audioSource.clip = knockBackSound;
+        audioSource.Play();
+    }
+    public void frostSFX()
+    {
+        //Play the enemy frost SFX
+        audioSource.Stop();
+        audioSource.clip = frostSound;
+        audioSource.Play();
     }
 
+    public void deathSFX()
+    {
+        //Play the enemy death SFX
+        audioSource.Stop();
+        audioSource.clip = deathSound;
+        audioSource.Play();
+    }
+
+    public void attackSFX()
+    {
+        //Play the enemy attack SFX
+        audioSource.Stop();
+        audioSource.clip = attackSound;
+        audioSource.Play();
+    }
 
     private void checkJump()
     {
@@ -251,7 +279,7 @@ public class meleeEnemyMovement : MonoBehaviour
             gameManager.Instance.playerHealth -= 2;
             GameObject.Find("Player").GetComponent<Animator>().SetTrigger("Hurt");
             GameObject.Find("Player").GetComponent<playerMovement>().hurtParticle.Emit(5);
-            //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
+            GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.playerInvinsibleTime = 0;
             scoreManager.Instance.meleeHit += 1;

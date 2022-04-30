@@ -34,10 +34,12 @@ public class Bullet : MonoBehaviour
             if(collision.gameObject.GetComponent<meleeEnemyMovement>() != null)
             {
                 collision.gameObject.GetComponent<meleeEnemyMovement>().knockBackParticle.Emit(3);
+                collision.gameObject.GetComponent<meleeEnemyMovement>().knockBackSFX();
             }
             if (collision.gameObject.GetComponent<rangeEnemyMovement>() != null)
             {
                 collision.gameObject.GetComponent<rangeEnemyMovement>().knockBackParticle.Emit(3);
+                collision.gameObject.GetComponent<rangeEnemyMovement>().knockBackSFX();
             }
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(rb.velocity.normalized * playerBulletForce, ForceMode2D.Impulse);
             this.gameObject.SetActive(false);
@@ -49,6 +51,7 @@ public class Bullet : MonoBehaviour
                               && collision.gameObject.tag != "Pet"
                               && collision.gameObject.tag != "Seed")
         {
+            
             this.gameObject.SetActive(false);
         }
     }

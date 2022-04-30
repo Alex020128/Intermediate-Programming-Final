@@ -75,14 +75,15 @@ public class enemySpawner : MonoBehaviour
             if(enemies[i].GetComponent<meleeEnemyMovement>() != null)
             {
                 enemies[i].GetComponent<meleeEnemyMovement>().deathParticle.Emit(10);
+                enemies[i].gameObject.GetComponent<meleeEnemyMovement>().deathSFX();
                 scoreManager.Instance.meleeEnemyKills += 1;
             }
             if (enemies[i].GetComponent<rangeEnemyMovement>() != null)
             {
                 enemies[i].GetComponent<rangeEnemyMovement>().deathParticle.Emit(10);
+                enemies[i].gameObject.GetComponent<rangeEnemyMovement>().deathSFX();
                 scoreManager.Instance.rangeEnemyKills += 1;
             }
-
             killCoroutine = StartCoroutine(killAll(1f));
         }
     }

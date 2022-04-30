@@ -28,10 +28,12 @@ public class iceCannon : MonoBehaviour
             if (collision.gameObject.GetComponent<meleeEnemyMovement>() != null)
             {
                 collision.gameObject.GetComponent<meleeEnemyMovement>().slowDownParticle.Emit(3);
+                collision.gameObject.GetComponent<meleeEnemyMovement>().frostSFX();
             }
             if (collision.gameObject.GetComponent<rangeEnemyMovement>() != null)
             {
                 collision.gameObject.GetComponent<rangeEnemyMovement>().slowDownParticle.Emit(3);
+                collision.gameObject.GetComponent<rangeEnemyMovement>().frostSFX();
             }
 
             if (collision.gameObject.GetComponent<slowDown>().speedDown == false)

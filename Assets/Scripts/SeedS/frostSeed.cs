@@ -23,6 +23,7 @@ public class frostSeed : MonoBehaviour
                 gameManager.Instance.petHealth += 3;
                 GameObject.Find("Player").GetComponent<playerMovement>().equipment = "frostCircle";
                 GameObject.Find("getEquipmentUI").GetComponent<getEquipmentUI>().faded = false;
+                GameObject.Find("Player").GetComponent<playerMovement>().seedSFX();
                 Destroy(this.gameObject);
             }
         }

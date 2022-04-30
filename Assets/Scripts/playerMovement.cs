@@ -17,6 +17,7 @@ public class playerMovement : MonoBehaviour
 	public ParticleSystem hurtParticle;
 	public bool facingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 currentVelocity = Vector3.zero;
+	public string equipment;
 
 	public GameObject pet;
 
@@ -27,17 +28,22 @@ public class playerMovement : MonoBehaviour
 	public bool jump = false;
 	public bool shootBullet;
 	public bool shootCannon;
-
-	public string equipment;
-	
 	public bool placeTrap; 
 	public bool castCircle;
+
+	//Player SFXs
+	public AudioSource audioSource;
+	public AudioClip hurtSound;
+	public AudioClip seedSound;
+	public AudioClip deathSound;
+	public AudioClip attackSound;
 
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		hurtParticle = GetComponent<ParticleSystem>();
+		audioSource = GetComponent<AudioSource>();
 
 		pet = GameObject.Find("Pet");
 
@@ -49,6 +55,36 @@ public class playerMovement : MonoBehaviour
 	{
 		Move(horizontalMove,jump);
 		jump = false;
+	}
+
+	//SFXs
+	public void hurtSFX()
+	{
+		//Play the player hurt SFX
+		audioSource.Stop();
+		audioSource.clip = hurtSound;
+		audioSource.Play();
+	}
+	public void seedSFX()
+	{
+		//Play the SFX when collect seed
+		audioSource.Stop();
+		audioSource.clip = seedSound;
+		audioSource.Play();
+	}
+	public void deathSFX()
+	{
+		//Play the player death SFX
+		audioSource.Stop();
+		audioSource.clip = deathSound;
+		audioSource.Play();
+	}
+	public void attackSFX()
+	{
+		//Play the player attack SFX
+		audioSource.Stop();
+		audioSource.clip = attackSound;
+		audioSource.Play();
 	}
 
 	private void CheckGrounded()

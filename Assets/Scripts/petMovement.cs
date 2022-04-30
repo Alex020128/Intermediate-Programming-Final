@@ -17,12 +17,42 @@ public class petMovement : MonoBehaviour
     public bool feeding;
     public bool carrying;
 
+    //Player SFXs
+    public AudioSource audioSource;
+    public AudioClip hurtSound;
+    public AudioClip eatSound;
+    public AudioClip deathSound;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
         animator = GetComponent<Animator>();
         hurtParticle = GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    //SFXs
+    public void hurtSFX()
+    {
+        //Play the pet hurt SFX
+        audioSource.Stop();
+        audioSource.clip = hurtSound;
+        audioSource.Play();
+    }
+    public void eatSFX()
+    {
+        //Play the SFX when eat seed
+        audioSource.Stop();
+        audioSource.clip = eatSound;
+        audioSource.Play();
+    }
+    public void deathSFX()
+    {
+        //Play the pet death SFX
+        audioSource.Stop();
+        audioSource.clip = deathSound;
+        audioSource.Play();
     }
 
     public void OnTriggerStay2D(Collider2D collision)
@@ -37,6 +67,7 @@ public class petMovement : MonoBehaviour
             //Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             if (feedTime > 5)
             {
+                //eatSFX();
                 seedEaten += gameManager.Instance.seedCarried;
                 scoreManager.Instance.seedEaten += gameManager.Instance.seedCarried;
                 gameManager.Instance.seedCarried = 0;
