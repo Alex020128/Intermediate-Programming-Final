@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class enemySpawner : MonoBehaviour
 {
-    //Bullet stats
+    //Enemy and enemy spawnpoint stats
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
@@ -37,18 +37,19 @@ public class enemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Spawn the first wave of enemies
         spawnWave();
     }
 
     public void spawnWave()
     {
-        //Spawn 3 seeds in the space
+        //Spawn waves of enemies in the space
         for (int w = 0; w < gameManager.Instance.spawnWave; w++)
         {
             int spawnWhere = Random.Range(0, spawnPoints.Count);
             GameObject spawnPoint = spawnPoints[spawnWhere];
 
-            //Spawn 3 seeds in the space
+            //80% of spawning melee enemy; 20% of spawning range enemy
             for (int i = 0; i < timeManager.Instance.spawnSize; i++)
             {
                 int chance = Random.Range(0, 100);
@@ -61,6 +62,7 @@ public class enemySpawner : MonoBehaviour
                     prefabToSpawn = prefabMeleeEnemy;
                 }
 
+                //Make sure the wave spawns on enemy spawnpoints
                 GameObject newEnemy = Instantiate(prefabToSpawn, new Vector2(Random.Range(spawnPoint.transform.position.x - 1, spawnPoint.transform.position.x + 1),
                                                                  spawnPoint.transform.position.y),Quaternion.identity);
                 enemies.Add(newEnemy);
@@ -70,6 +72,7 @@ public class enemySpawner : MonoBehaviour
 
     public void killAllEnemies()
     {
+        //Emit particles, record death and start coroutine when the level is cleared
         for (int i = 0; i < enemies.Count; i++)
         {
             if(enemies[i].GetComponent<meleeEnemyMovement>() != null)

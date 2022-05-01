@@ -6,71 +6,60 @@ using DG.Tweening;
 
 public class gameManager : Singleton<gameManager>
 {
-    //Player bullet
+    //GameObjects
     [SerializeField]
     private GameObject seedSpawner;
     [SerializeField]
     private GameObject enemySpawner;
 
-    //Player stats
+    //Player and pet stats
     public int playerHealth;
     public int petHealth;
-
     public int petDemand;
     public int seedMax;
     public int spawnWave;
 
-    //Player bools
+    //Player and pet bools
     public bool playerDeath;
     public bool playerInvinsible;
     public bool petDeath;
     public bool petInvinsible;
-
     public bool levelCleared;
 
-    //Player invincible timer
+    //Player and pet invincible timer
     public float playerInvinsibleTime;
     public float petInvinsibleTime;
     public float seedCarried;
 
+    //Coroutines
     Coroutine endingCoroutine;
-
-    /*//Background music loop
-    public AudioSource audioSource;
-    public AudioClip musicLoop;*/
 
     void Awake()
     {
         name = "GameManager"; // Set name of object
-
+        
+        //Assign variables
         seedSpawner = GameObject.Find("seedSpawner");
         enemySpawner = GameObject.Find("enemySpawner");
-
-        //audioSource = GetComponent<AudioSource>();
-
         spawnWave = 1;
     }
 
     private void Start()
     {
-        //Loops the music
-        //audioSource.clip = musicLoop;
-
-        //audioSource.Play();
+        //Reset all the stats and bools
         resetStats();
     }
 
     public void resetStats()
     {
+        //Reset all the stats and bools
         playerHealth = 100;
         petHealth = 50;
         playerInvinsibleTime = 0;
         petInvinsibleTime = 0;
-
         petDemand = 5;
         seedMax = 8;
         spawnWave = 1;
-
         seedCarried = 0;
 
         playerDeath = false;
@@ -81,7 +70,7 @@ public class gameManager : Singleton<gameManager>
 
     private IEnumerator endingScreen(float wait)
     {
-        //Make sure that the death particle will be shown
+        //Ends the game in 3s
         yield return new WaitForSeconds(wait);
         if ("gameScreen" == SceneManager.GetActiveScene().name)
         {
@@ -92,13 +81,14 @@ public class gameManager : Singleton<gameManager>
 
     void Update()
     {
-
+        //Assign variables
         if ("gameScreen" == SceneManager.GetActiveScene().name)
         {
             seedSpawner = GameObject.Find("seedSpawner");
             enemySpawner = GameObject.Find("enemySpawner");
         }
 
+        //Kill LL ENEMIES, Spawn more enemies (in waves), spawn some seeds, increase the maximum seeds amount, heal the player and increases the pet demand
         if (levelCleared)
         {
             GameObject.Find("Pet").GetComponent<Animator>().SetTrigger("Attack");
@@ -143,7 +133,6 @@ public class gameManager : Singleton<gameManager>
         {
             petDeath = true;
         }
-       
 
         //Player's health can't be over 100
         if (playerHealth > 100)
@@ -151,11 +140,13 @@ public class gameManager : Singleton<gameManager>
             playerHealth = 100;
         }
 
+        //PET's health can't be over 50
         if (petHealth > 50)
         {
             petHealth = 50;
         }
 
+        //Either player's death or pet's death will end the game
         if("gameScreen" == SceneManager.GetActiveScene().name)
         {
             if ((playerDeath || petDeath))
@@ -166,6 +157,7 @@ public class gameManager : Singleton<gameManager>
             }
         }
 
+        //Reset all the stats and bools
         if ("titleScreen" == SceneManager.GetActiveScene().name)
         {
             resetStats();

@@ -18,17 +18,19 @@ public class enemyBullet : MonoBehaviour
 
     private void Awake()
     {
+        //Assign variables
         lifeTimer = 3.0f;
     }
 
     private void Start()
     {
+        //Assign variables
         player = GameObject.Find("Player").transform;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //Decrease player health, emits particle, set player invincible time, trigger sreenshake when hits the player
+        //Decrease player health, emits particle, set player invincible time, emit particles and trigger sreenshake when hits the player
         if (collision.gameObject.tag == "Player" && gameManager.Instance.playerInvinsible == false
                                                  && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
@@ -42,6 +44,7 @@ public class enemyBullet : MonoBehaviour
             gameManager.Instance.playerInvinsible = true;
         }
 
+        //Decrease pet health, emits particle, set pet invincible time, emit particles and trigger sreenshake when hits the pet
         if (collision.gameObject.tag == "Pet" && gameManager.Instance.petInvinsible == false
                                               && gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
@@ -55,6 +58,7 @@ public class enemyBullet : MonoBehaviour
             gameManager.Instance.petInvinsible = true;
         }
 
+        //Destroy itself when hit the ground or wall
         if (collision != null && collision.gameObject.tag != "Enemy"
                               && collision.gameObject.tag != "Attacks"
                               && collision.gameObject.tag != "Seed")
@@ -89,7 +93,7 @@ public class enemyBullet : MonoBehaviour
             targetRotation = new Vector3(0, 0, angle);
             transform.rotation = Quaternion.Euler(targetRotation);
 
-            //Let the bullet starts from the player
+            //Let the bullet starts from the rangeEnemy
             transform.localPosition = new Vector3(0, 0.5f, 0);
         }
     }

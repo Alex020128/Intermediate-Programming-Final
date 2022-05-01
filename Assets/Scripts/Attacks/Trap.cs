@@ -8,25 +8,24 @@ public class Trap : MonoBehaviour
     [SerializeField]
     public float lifeTimer;
 
+    //Components
     public Animator animator;
 
+    //Bools
     public bool enemyTrapped;
 
     private void Awake()
     {
+        //Assign variables
         lifeTimer = 20.0f;
         animator = GetComponent<Animator>();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Trap enemies when collide with enemies
         if (collision != null && collision.gameObject.tag == "Enemy" && enemyTrapped == false)
         {
-            Debug.Log("233");
-
-            //particle.Emit(5);
-            //Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             collision.gameObject.GetComponent<trapped>().gotTrapped = true;
             lifeTimer = 10.0f;
             enemyTrapped = true;
@@ -36,9 +35,10 @@ public class Trap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //The bullet can't fly forever, so a lifetimer is set
+        //The trap can't stay forever, so a lifetimer is set
         lifeTimer -= Time.deltaTime;
 
+        //Change aniamtion sccording to state
         if (enemyTrapped)
         {
             animator.SetBool("Trapped", true);
@@ -50,7 +50,7 @@ public class Trap : MonoBehaviour
 
         if (lifeTimer <= 0)
         {
-            //Set the bullet to inactive
+            //Set the trap to inactive
             this.gameObject.SetActive(false);
         }
     }

@@ -5,15 +5,19 @@ using DG.Tweening;
 
 public class petMovement : MonoBehaviour
 {
+    //Components
     private Transform player;
     public Animator animator;
     public ParticleSystem hurtParticle;
 
+    //Coroutines
     Coroutine carryCoroutine;
 
+    //Stats
     public float feedTime = 0;
     public float seedEaten = 0;
     
+    //Bools
     public bool feeding;
     public bool carrying;
 
@@ -22,10 +26,13 @@ public class petMovement : MonoBehaviour
     public AudioClip hurtSound;
     public AudioClip eatSound;
     public AudioClip deathSound;
+    public AudioClip carrySound;
+    public AudioClip attackSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Assign variables
         player = GameObject.Find("Player").transform;
         animator = GetComponent<Animator>();
         hurtParticle = GetComponent<ParticleSystem>();
@@ -54,36 +61,52 @@ public class petMovement : MonoBehaviour
         audioSource.clip = deathSound;
         audioSource.Play();
     }
+    public void carrySFX()
+    {
+        //Play the pet death SFX
+        audioSource.Stop();
+        audioSource.clip = carrySound;
+        audioSource.Play();
+    }
+    public void attackSFX()
+    {
+        //Play the pet attack SFX
+        audioSource.Stop();
+        audioSource.clip = attackSound;
+        audioSource.Play();
+    }
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Players can feed the seed carried on him to the pet or carry/drop the pet when colliding
         if (collision != null && collision.gameObject.tag == "Player")
         {
             feeding = true;
             feedTime += Time.deltaTime;
 
-            //particle.Emit(5);
-            //Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
-            if (feedTime > 5)
+            //Feed all the seeds carried after 5s
+            if (feedTime > 5 && gameManager.Instance.seedCarried != 0)
             {
-                //eatSFX();
+                eatSFX();
                 seedEaten += gameManager.Instance.seedCarried;
                 scoreManager.Instance.seedEaten += gameManager.Instance.seedCarried;
                 gameManager.Instance.seedCarried = 0;
             }
 
+            //Carry the pet or drop the pet by pressing F
             if (Input.GetKeyDown(KeyCode.F) && carrying == false)
             {
+                carrySFX();
                 carryCoroutine = StartCoroutine(carryTime(0.1f));
             }
             if (Input.GetKeyDown(KeyCode.F) && carrying == true && player.gameObject.GetComponent<playerMovement>().isGrounded)
             {
+                carrySFX();
                 carryCoroutine = StartCoroutine(carryTime(0.1f));
             }
         }
 
-        //Decrease pet health, emits particle, set player invincible time, trigger sreenshake when hits the player
+        //Decrease pet health, emits particle, change animation, set pet invincible time, trigger sreenshake when hits the enemy
         if (collision.gameObject.tag == "Enemy"&& collision.gameObject.GetComponent<trapped>().gotTrapped == false
                                                && collision.gameObject.GetComponent<slowDown>().frozen == false
                                                && gameManager.Instance.petInvinsible == false
@@ -93,7 +116,15 @@ public class petMovement : MonoBehaviour
             collision.gameObject.GetComponent<Animator>().SetTrigger("Attack");
             gameManager.Instance.petHealth -= 2;
             hurtParticle.Emit(5);
-            //GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
+            if (collision.gameObject.GetComponent<meleeEnemyMovement>() != null)
+            {
+                collision.gameObject.GetComponent<meleeEnemyMovement>().attackSFX();
+            }
+            if (collision.gameObject.GetComponent<rangeEnemyMovement>() != null)
+            {
+                collision.gameObject.GetComponent<rangeEnemyMovement>().attackSFX();
+            }
+            hurtSFX();
             Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             gameManager.Instance.petInvinsibleTime = 0;
             scoreManager.Instance.meleeHit += 1;
@@ -103,7 +134,7 @@ public class petMovement : MonoBehaviour
 
     private IEnumerator carryTime(float wait)
     {
-        //Make sure that the death particle will be shown
+        //Make sure pet doesn't change state over and over again
         yield return new WaitForSeconds(wait);
         if (!carrying)
         {
@@ -114,6 +145,7 @@ public class petMovement : MonoBehaviour
         }
     }
 
+   //Player can only feed the pet when colliding
     public void OnTriggerExit2D(Collider2D collision)
     {
         feeding = false;
@@ -122,11 +154,13 @@ public class petMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Reset the feed time timer
         if (!feeding)
         {
             feedTime = 0;
         }
 
+        //Follows the player when being carried
         if (carrying)
         {
             transform.position = new Vector2(player.position.x, player.position.y + 0.4f);
@@ -134,10 +168,11 @@ public class petMovement : MonoBehaviour
             feedTime = 6;
         }
 
+        //Level cleared when reached demand
         if (seedEaten >= gameManager.Instance.petDemand)
         {
             gameManager.Instance.levelCleared = true;
-            seedEaten = 0;
+            seedEaten -= gameManager.Instance.petDemand;
         }
     }
 }

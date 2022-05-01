@@ -6,15 +6,18 @@ using TMPro;
 
 public class getEquipmentUI : MonoBehaviour
 {
+    //Components
     public TMP_Text playerEquipment;
     private Animator animator;
     private GameObject player;
 
+    //Bools
     public bool faded;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Assign variables
         playerEquipment = GetComponent<TMP_Text>();
         animator = GetComponent<Animator>();
         player = GameObject.Find("Player");
@@ -24,6 +27,7 @@ public class getEquipmentUI : MonoBehaviour
 
     void resetAnimationBool()
     {
+        //Hide text
         playerEquipment.text = "";
         faded = true;
     }
@@ -31,6 +35,7 @@ public class getEquipmentUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Hint the player that they updated the q skill
         if (gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
             if(player.GetComponent<playerMovement>().equipment == "frostCircle" && faded == false)
@@ -50,6 +55,7 @@ public class getEquipmentUI : MonoBehaviour
         }
         else
         {
+            //Hide when the game ends
             playerEquipment.enabled = false;
         }
     }

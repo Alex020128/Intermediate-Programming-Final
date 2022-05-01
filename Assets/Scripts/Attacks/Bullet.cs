@@ -7,20 +7,22 @@ public class Bullet : MonoBehaviour
 {
     //Stats
     [SerializeField]
-    public float turnSpeed = 360; // degrees per second
+    private float turnSpeed = 360; // degrees per second
     [SerializeField]
     public float lifeTimer;
-    public float moveSpeed = 13;
-
+    private float moveSpeed = 13;
     [SerializeField] private float playerBulletForce = 70f;
 
-    public Rigidbody2D rb;
+    //Components
+    private Rigidbody2D rb;
     private ParticleSystem knockBackParticle;
- //Target position
-    public Vector3 targetRotation;
+    
+    //Target position
+    private Vector3 targetRotation;
 
     private void Awake()
     {
+        //Assign variables
         lifeTimer = 3.0f;
         rb = GetComponent<Rigidbody2D>();
         knockBackParticle = GetComponent<ParticleSystem>();
@@ -28,7 +30,7 @@ public class Bullet : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Add knowckback, emit particle when hit enemies
         if (collision != null && collision.gameObject.tag == "Enemy")
         {
             if(collision.gameObject.GetComponent<meleeEnemyMovement>() != null)
@@ -44,7 +46,8 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(rb.velocity.normalized * playerBulletForce, ForceMode2D.Impulse);
             this.gameObject.SetActive(false);
         }
-
+        
+        //Destroy itslef when hit ground or wall
         if (collision != null && collision.gameObject.tag != "Enemy"
                               && collision.gameObject.tag != "Player"
                               && collision.gameObject.tag != "Attacks"
@@ -65,7 +68,6 @@ public class Bullet : MonoBehaviour
             if (lifeTimer <= 2.5f)
             {
             //Move along the latest rotation(towards the player)
-
             rb.velocity = transform.right * moveSpeed;
                 transform.parent = null;
                 if (lifeTimer <= 0)
@@ -82,7 +84,7 @@ public class Bullet : MonoBehaviour
             targetRotation = new Vector3(0, 0, angle);
             transform.rotation = Quaternion.Euler(targetRotation);
 
-            //Let the bullet starts from the player
+            //Let the bullet starts from the player's sligshot
             if (GameObject.Find("Player").GetComponent<playerMovement>().facingRight)
             {
                 transform.localPosition = new Vector3(0.7f, 1.2f, 0);

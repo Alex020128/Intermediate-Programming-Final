@@ -4888,6 +4888,8 @@ MonoBehaviour:
   frozen: 0
   rb: {fileID: 0}
   animator: {fileID: 0}
+  audioSource: {fileID: 0}
+  frozenSound: {fileID: 8300000, guid: a7eff029e2b418c46b8960fabe929966, type: 3}
 --- !u!114 &8929916695573408142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4903,6 +4905,8 @@ MonoBehaviour:
   gotTrapped: 0
   rb: {fileID: 0}
   animator: {fileID: 0}
+  audioSource: {fileID: 0}
+  trappedSound: {fileID: 8300000, guid: 444f6b3c0d52c9646a58bafea23e58c0, type: 3}
 --- !u!114 &2260414372908373732
 MonoBehaviour:
   m_ObjectHideFlags: 0

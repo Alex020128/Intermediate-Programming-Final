@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class Seed : MonoBehaviour
 {
+    //Stats
     public float collectTime = 0;
     public bool collecting;
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Be collected when colliding with player for 2s
         if (collision != null && collision.gameObject.tag == "Player")
         {
             collecting = true;
             collectTime += Time.deltaTime;
 
-            //particle.Emit(5);
-            //Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             if (collectTime > 2)
             {
                 gameManager.Instance.seedCarried += 1;
@@ -31,15 +30,10 @@ public class Seed : MonoBehaviour
         collecting = false;
     }
 
-    public void OnDrawGizmos()
-	{
-        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y - 0.25f), Vector2.down, Color.green);
-        Debug.DrawRay(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.up, Color.green);
-	}
-
     // Update is called once per frame
     void Update()
     {
+        //Reset timer when not colliding
         if (!collecting)
         {
             collectTime = 0;

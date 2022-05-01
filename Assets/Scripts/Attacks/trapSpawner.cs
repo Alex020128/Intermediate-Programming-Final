@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class trapSpawner : MonoBehaviour
 {
-    //Bullet stats
+    //Trap stats
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
@@ -21,39 +21,28 @@ public class trapSpawner : MonoBehaviour
         }
     }
 
-    //SFX for bullet
+    //SFX for trap
     public AudioSource audioSource;
     public AudioClip bulletSound;
 
     private void Start()
     {
-        //Spawn a pool of bullets at top of the screen
+        //Spawn 3 bullets at the beginning
         for (int i = 0; i < 3; i++)
         {
             GameObject newBullet = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
             traps.Add(newBullet);
             traps[i].SetActive(false);
         }
-
-        //audioSource = GetComponent<AudioSource>();
     }
-
-    //public void bulletSFX()
-    //{
-    //Play the bullet SFX
-    //audioSource.Stop();
-    //audioSource.clip = bulletSound;
-    //audioSource.Play();
-    //}
 
     public void placeTrap()
     {
-        //let one of the waiting bullets to be active
+        //let one of the waiting traps to be active
         for (int i = 0; i < traps.Count; i++)
         {
             if (!traps[i].activeInHierarchy)
             {
-                //bulletSFX();
                 traps[i].SetActive(true);
                 traps[i].GetComponent<Trap>().lifeTimer = 30.0f;
                 traps[i].GetComponent<Trap>().enemyTrapped = false;
@@ -62,18 +51,18 @@ public class trapSpawner : MonoBehaviour
             }
         }
     }
+
     void Update()
     {
-        //Shoot bullet if there's still bullet not shot
+        //Spawn trap if there's still bullet not shot
         spawnTimer -= Time.deltaTime;
-        while (spawnTimer < 0.0f) // && gameManager.Instance.death == false
+        while (spawnTimer < 0.0f)
         {
             spawnTimer += spawnPerSecond;
-
             GameObject.Find("Player").GetComponent<playerMovement>().placeTrap = false;
         }
 
-        //Let bullet "spawn" around the player's chest
+        //Let trap "spawn" at the player's position
         transform.position = new Vector2(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y);
     }
 }

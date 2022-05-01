@@ -5,17 +5,17 @@ using DG.Tweening;
 
 public class rangeEnemyMovement : MonoBehaviour
 {
-    //Enemy stats
+    //rangeEnemy stats
     public float patrolSpeed;
     public float followSpeed;
     public float lineOfSite;
     public float shootingRange;
     public float fireRate = 3.0f;
     private float nextFireTime;
-
     public float latestDirectionChangeTime;
     public readonly float directionChangeTime = 3f;
 
+    //Components
     public GameObject bulletParent;
     public Rigidbody2D rb;
     public Vector2 direction;
@@ -25,8 +25,6 @@ public class rangeEnemyMovement : MonoBehaviour
     public ParticleSystem slowDownParticle;
     public ParticleSystem deathParticle;
     private Animator animator;
-
-    Coroutine waitCoroutine;
 
     //Enemy bullets
     [SerializeField]
@@ -47,10 +45,11 @@ public class rangeEnemyMovement : MonoBehaviour
     public AudioClip attackSound;
 
     //Enemy coroutine
-    Coroutine deathCoroutine;
+    Coroutine waitCoroutine;
 
     private void Awake()
     {
+        //Assign variables
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -59,8 +58,11 @@ public class rangeEnemyMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Assign variables
         player = GameObject.Find("Player").transform;
         pet = GameObject.Find("Pet").transform;
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         //Spawn a pool of enemy bullets
         for (int i = 0; i < bullets.Length; i++)
@@ -69,18 +71,12 @@ public class rangeEnemyMovement : MonoBehaviour
             bullets[i] = newBullet;
             bullets[i].SetActive(false);
         }
-
-        //The health of the enemy increases over time
-
-        animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
     }
 
     private void checkGround()
     {
+        //Shoot a ray downwards to see if the enemy is too close to ground, if so, change direction
         RaycastHit2D grounedRay = Physics2D.Raycast(transform.position, Vector2.down, 3.5f, 1 << 2);
-
-        //Debug.Log(grounedRay.collider.gameObject);
 
         if (grounedRay.collider != null && grounedRay.collider.gameObject.GetComponent<enemyCanJump>() != null)
         {
@@ -89,9 +85,8 @@ public class rangeEnemyMovement : MonoBehaviour
             changeDirection();
         }
 
+        //Shoot a ray downwards to see if the enemy is too close to ceiling, if so, change direction
         RaycastHit2D ceilingRay = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.5f), Vector2.up, 1.5f, 1 << 2);
-
-        //Debug.Log(grounedRay.collider.gameObject);
 
         if (ceilingRay.collider != null && ceilingRay.collider.gameObject.GetComponent<enemyCanJump>() != null)
         {
@@ -103,6 +98,7 @@ public class rangeEnemyMovement : MonoBehaviour
 
     private void checkPlayer()
     {
+        //Shoot a ray to see if the enemy can see the player (while not blocked by walls)
         RaycastHit2D[] sightRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.5f),
                                                        new Vector2(player.position.x, player.position.y + 0.5f) - new Vector2(transform.position.x, transform.position.y + 0.5f),
                                                        lineOfSite, (1 << 6 | 1 << 0));
@@ -118,6 +114,7 @@ public class rangeEnemyMovement : MonoBehaviour
     }
     private void checkPet()
     {
+        //Shoot a ray to see if the enemy can see the pet (while not blocked by walls)
         RaycastHit2D[] sightRay = Physics2D.RaycastAll(new Vector2(transform.position.x, transform.position.y + 0.5f),
                                                        new Vector2(pet.position.x, pet.position.y + 0.5f) - new Vector2(transform.position.x, transform.position.y + 0.5f),
                                                        lineOfSite, (1 << 6 | 1 << 0));
@@ -154,6 +151,7 @@ public class rangeEnemyMovement : MonoBehaviour
         Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + 0.5f), shootingRange);
     }
 
+    //SFXs
     public void knockBackSFX()
     {
         //Play the enemy knockback SFX
@@ -168,7 +166,6 @@ public class rangeEnemyMovement : MonoBehaviour
         audioSource.clip = frostSound;
         audioSource.Play();
     }
-
     public void deathSFX()
     {
         //Play the enemy death SFX
@@ -176,7 +173,6 @@ public class rangeEnemyMovement : MonoBehaviour
         audioSource.clip = deathSound;
         audioSource.Play();
     }
-
         public void attackSFX()
     {
         //Play the enemy attack SFX
@@ -197,6 +193,7 @@ public class rangeEnemyMovement : MonoBehaviour
                 bullets[i].GetComponent<enemyBullet>().lifeTimer = 3.0f;
                 bullets[i].transform.position = transform.position;
                 bullets[i].transform.parent = bulletParent.transform;
+                attackSFX();
                 break;
             }
         }
@@ -204,7 +201,7 @@ public class rangeEnemyMovement : MonoBehaviour
 
     public void OnCollisionStay2D(Collision2D collision)
     {
-        //Decrease player health, emits particle, set player invincible time, trigger sreenshake when hits the player
+        //Decrease player health, emits particle, set player invincible time, emit particles and trigger sreenshake when hits the player
         if (collision.collider.gameObject.tag == "Player" && GetComponent<trapped>().gotTrapped == false
                                                           && GetComponent<slowDown>().frozen == false
                                                           && gameManager.Instance.playerInvinsible == false
@@ -214,6 +211,7 @@ public class rangeEnemyMovement : MonoBehaviour
             gameManager.Instance.playerHealth -= 2;
             GameObject.Find("Player").GetComponent<Animator>().SetTrigger("Hurt");
             GameObject.Find("Player").GetComponent<playerMovement>().hurtParticle.Emit(5);
+            attackSFX();
             GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.playerInvinsibleTime = 0;
@@ -222,21 +220,14 @@ public class rangeEnemyMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator deathExplode(float wait)
-    {
-        //Make sure that the death particle will be shown
-        yield return new WaitForSeconds(wait);
-        scoreManager.Instance.rangeEnemyKills += 1;
-        Destroy(this.gameObject);
-    }
-
     public void movementControl()
     {
         float distanceToPlayer = 0;
         distanceToPlayer = player.position.x - transform.position.x;
         float nextSpeedX = Mathf.Sign(distanceToPlayer) * followSpeed;
         float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
-        
+
+        //Move towards the player; if in shoot range, shoot bullets
         if (distanceFromPlayer > shootingRange)
         {
             if (rb.velocity.magnitude <= 2 && GetComponent<slowDown>().frozen == false && GetComponent<trapped>().gotTrapped == false)
@@ -251,6 +242,8 @@ public class rangeEnemyMovement : MonoBehaviour
             shootBullet();
             nextFireTime = Time.time + fireRate;
         }
+
+        //Continue facing the player
         facePlayer();
     }
     public void attackPet()
@@ -260,6 +253,7 @@ public class rangeEnemyMovement : MonoBehaviour
         float nextSpeedX = Mathf.Sign(distanceToPet) * followSpeed;
         float distanceFromPet = Vector2.Distance(pet.position, transform.position);
 
+        //Move towards the pet; if in shoot range, shoot bullets
         if (distanceFromPet > shootingRange)
         {
             if (rb.velocity.magnitude <= 2 && GetComponent<slowDown>().frozen == false && GetComponent<trapped>().gotTrapped == false)
@@ -278,10 +272,12 @@ public class rangeEnemyMovement : MonoBehaviour
 
     public void changeDirection()
     {
+        //Randomly moves to a direction
         direction = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)).normalized;
     }
     public void facePlayer()
     {
+        //Continue facing the player
         float distanceToPlayer = player.position.x - transform.position.x;
         if (distanceToPlayer > 1)
         {
@@ -296,7 +292,7 @@ public class rangeEnemyMovement : MonoBehaviour
 
     private IEnumerator pantrolWait(float wait)
     {
-        //Make sure that the death particle will be shown
+        //Stays in current position for 1.5s, then change direction
         yield return new WaitForSeconds(wait);
         canPatrol = true;
         latestDirectionChangeTime = Time.time;
@@ -305,8 +301,10 @@ public class rangeEnemyMovement : MonoBehaviour
 
     public void patrolControl()
     {
+        //Continue checking if its too close to the ground or ceiling
         checkGround();
 
+        //Check direction every 1.5s
         if (Time.time - latestDirectionChangeTime > directionChangeTime)
         {
             latestDirectionChangeTime = Time.time;
@@ -314,17 +312,21 @@ public class rangeEnemyMovement : MonoBehaviour
             canPatrol = false;
         }
 
+        //Move towards its direction
         if (rb.velocity.magnitude <= 1 && canPatrol && GetComponent<slowDown>().frozen == false && GetComponent<trapped>().gotTrapped == false)
         {
             rb.velocity += direction * patrolSpeed;
         }
     }
 
-        // Update is called once per frame
-        void Update()
+    // Update is called once per frame
+    void FixedUpdate()
     {
+        //Continue checking if can see player or pet
         checkPlayer();
         checkPet();
+
+        //Enemy priority attack pet over player; if neither pet nor player can be seen, patron
         if (findPlayer && !findPet)
         {
             movementControl();
@@ -337,6 +339,5 @@ public class rangeEnemyMovement : MonoBehaviour
         {
             patrolControl();
         }
-        
     }
 }

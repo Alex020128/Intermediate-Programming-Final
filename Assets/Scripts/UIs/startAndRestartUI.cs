@@ -7,17 +7,13 @@ using UnityEngine.SceneManagement;
 
 public class startAndRestartUI : MonoBehaviour
 {
+    //Components
     public TMP_Text startAndRestart;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
+        //Show different text in different scenes
         if ("titleScreen" == SceneManager.GetActiveScene().name)
         {
             startAndRestart.text = "Press Space to Start!";

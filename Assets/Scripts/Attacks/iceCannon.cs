@@ -11,18 +11,21 @@ public class iceCannon : MonoBehaviour
     public float lifeTimer;
     public float moveSpeed = 13;
 
+    //Components
     public Rigidbody2D rb;
+   
     //Target position
     public Vector3 targetRotation;
 
     private void Awake()
     {
+        //Assign variables
         lifeTimer = 3.0f;
         rb = GetComponent<Rigidbody2D>();
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Slow down velocity, emit particle when hit enemies
         if (collision != null && collision.gameObject.tag == "Enemy")
         {
             if (collision.gameObject.GetComponent<meleeEnemyMovement>() != null)
@@ -36,6 +39,7 @@ public class iceCannon : MonoBehaviour
                 collision.gameObject.GetComponent<rangeEnemyMovement>().frostSFX();
             }
 
+            //If the enemy is already being slowed down, frozen it
             if (collision.gameObject.GetComponent<slowDown>().speedDown == false)
             {
                 collision.gameObject.GetComponent<slowDown>().speedDown = true;
@@ -47,6 +51,7 @@ public class iceCannon : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
+        //Destroy itslef when hit ground or wall
         if (collision != null && collision.gameObject.tag != "Enemy"
                               && collision.gameObject.tag != "Player"
                               && collision.gameObject.tag != "Attacks"
@@ -66,7 +71,6 @@ public class iceCannon : MonoBehaviour
         if (lifeTimer <= 2.5f)
         {
             //Move along the latest rotation(towards the player)
-
             rb.velocity = transform.right * moveSpeed;
             transform.parent = null;
             if (lifeTimer <= 0)
@@ -84,7 +88,7 @@ public class iceCannon : MonoBehaviour
             targetRotation = new Vector3(0, 0, angle);
             transform.rotation = Quaternion.Euler(targetRotation);
 
-            //Let the bullet starts from the player
+            //Let the bullet starts from the player's sligshot
             if (GameObject.Find("Player").GetComponent<playerMovement>().facingRight)
             {
                 transform.localPosition = new Vector3(0.7f, 1.2f, 0);

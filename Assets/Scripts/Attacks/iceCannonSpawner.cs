@@ -27,24 +27,14 @@ public class iceCannonSpawner : MonoBehaviour
 
     private void Start()
     {
-        //Spawn a pool of bullets at top of the screen
+        //Spawn one bullt at the beginning
         for (int i = 0; i < 1; i++)
         {
             GameObject newBullet = Instantiate(prefabToSpawn, transform.position, Quaternion.identity, this.gameObject.transform);
             bullets.Add(newBullet);
             bullets[i].SetActive(false);
         }
-
-        //audioSource = GetComponent<AudioSource>();
     }
-
-    //public void bulletSFX()
-    //{
-    //Play the bullet SFX
-    //audioSource.Stop();
-    //audioSource.clip = bulletSound;
-    //audioSource.Play();
-    //}
 
     public void shootBullet()
     {
@@ -53,7 +43,6 @@ public class iceCannonSpawner : MonoBehaviour
         {
             if (!bullets[i].activeInHierarchy)
             {
-                //bulletSFX();
                 bullets[i].SetActive(true);
                 bullets[i].GetComponent<iceCannon>().lifeTimer = 3.0f;
                 bullets[i].transform.position = transform.position;
@@ -67,14 +56,14 @@ public class iceCannonSpawner : MonoBehaviour
     {
         //Shoot bullet if there's still bullet not shot
         spawnTimer -= Time.deltaTime;
-        while (spawnTimer < 0.0f) // && gameManager.Instance.death == false
+        while (spawnTimer < 0.0f)
         {
             spawnTimer += spawnPerSecond;
 
             GameObject.Find("Player").GetComponent<playerMovement>().shootCannon = false;
         }
 
-        //Let bullet "spawn" around the player's chest
+        //Let bullet "spawn" around the player's slingshot
         transform.position = new Vector2(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y);
     }
 }

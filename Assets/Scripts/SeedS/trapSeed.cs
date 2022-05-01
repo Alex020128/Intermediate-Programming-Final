@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class trapSeed : MonoBehaviour
 {
+    //Stats
     public float collectTime = 0;
     public bool collecting;
 
     public void OnTriggerStay2D(Collider2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Be collected when colliding with player for 2s
         if (collision != null && collision.gameObject.tag == "Player")
         {
             collecting = true;
             collectTime += Time.deltaTime;
 
-            //particle.Emit(5);
-            //Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             if (collectTime > 2)
             {
                 gameManager.Instance.seedCarried += 1;
                 gameManager.Instance.petHealth += 3;
+                //Update the current q skill to vine traps
                 GameObject.Find("Player").GetComponent<playerMovement>().equipment = "Trap";
                 GameObject.Find("getEquipmentUI").GetComponent<getEquipmentUI>().faded = false;
                 GameObject.Find("Player").GetComponent<playerMovement>().seedSFX();
@@ -36,6 +36,7 @@ public class trapSeed : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Reset timer when not colliding
         if (!collecting)
         {
             collectTime = 0;

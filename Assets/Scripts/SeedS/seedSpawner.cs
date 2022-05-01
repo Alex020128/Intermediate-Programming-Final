@@ -27,26 +27,14 @@ public class seedSpawner : MonoBehaviour
         }
     }
 
-    //SFX for bullet
-    public AudioSource audioSource;
-    public AudioClip bulletSound;
-
     private void Start()
     {
+        //Assign variables
         spawnPerSecond = 10f;
-
+        
+        //Spawn 3 seeds 
         spawnSome();
-
-        //audioSource = GetComponent<AudioSource>();
     }
-
-    //public void bulletSFX()
-    //{
-    //Play the bullet SFX
-    //audioSource.Stop();
-    //audioSource.clip = bulletSound;
-    //audioSource.Play();
-    //}
 
     public void spawnSome()
     {
@@ -67,13 +55,11 @@ public class seedSpawner : MonoBehaviour
                 prefabToSpawn = prefabSeed;
             }
 
+            //Make sure the seed is spawned on ground
             GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-10, 10), Random.Range(-5, 5)), Quaternion.identity);
             seeds.Add(newSeed);
-            //seeds[i].SetActive(false);
 
             bool canSpawn = false;
-
-            //Debug.Log(grounedRay.collider.gameObject);
 
             while (!canSpawn)
             {
@@ -89,7 +75,6 @@ public class seedSpawner : MonoBehaviour
                 }
                 else
                 {
-                    //seeds[i].transform.position = new Vector2(Random.Range(-10, 10), Random.Range(-5, 5));
                     canSpawn = false;
                 }
             }
@@ -98,9 +83,10 @@ public class seedSpawner : MonoBehaviour
 
     public void spawnSeed()
     {
-        //let one of the waiting bullets to be active
+        //Spawn a seed every 10s
         if(seeds.Count < gameManager.Instance.seedMax)
         {
+            //20% chance to spawn a frostSeed, 20% chance to spawn a trapSeed
             int chance = Random.Range(0, 100);
             if (chance <= 20)
             {
@@ -115,6 +101,7 @@ public class seedSpawner : MonoBehaviour
                 prefabToSpawn = prefabSeed;
             }
 
+            //Make sure the seed is spawned on ground
             GameObject newSeed = Instantiate(prefabToSpawn, new Vector2(Random.Range(-13, 13), Random.Range(-4, 22)), Quaternion.identity);
             seeds.Add(newSeed);
            
@@ -138,20 +125,19 @@ public class seedSpawner : MonoBehaviour
                 }
             }
         }
- 
     }
 
     void Update()
     {
-        //Shoot bullet if there's still bullet not shot
+        //Spawn a bullet every 10s
         spawnTimer -= Time.deltaTime;
-        while (spawnTimer < 0.0f) // && gameManager.Instance.death == false
+        while (spawnTimer < 0.0f)
         {
             spawnTimer += spawnPerSecond;
             spawnSeed();
         }
 
-        //Delete the dead enemies from the list
+        //Delete the collected bullets from the list
         for (int i = 0; i < seeds.Count; i++)
         {
             if (seeds[i] == null)
@@ -159,8 +145,5 @@ public class seedSpawner : MonoBehaviour
                 seeds.Remove(seeds[i]);
             }
         }
-
-        //Let bullet "spawn" around the player's chest
-        //transform.position = new Vector2(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y);
     }
 }

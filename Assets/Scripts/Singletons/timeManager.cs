@@ -14,21 +14,23 @@ public class timeManager : Singleton<timeManager>
     public float initialSpawnSize;
     public float spawnSize;
 
-
     void Awake()
     {
         name = "TimeManager"; // Set name of object
 
+        //Assign variables
         spawnSize = 3;
     }
 
     private void Start()
     {
+        //Reset all the stats
         resetStats();
     }
 
     public void resetStats()
     {
+        //Reset all the stats
         playerTime = 0;
         finalTime = 0; ;
         initialSpawnSize = 3;
@@ -43,23 +45,23 @@ public class timeManager : Singleton<timeManager>
     {
         if (gameManager.Instance.playerDeath == false && gameManager.Instance.petDeath == false)
         {
-            //Record the total play time
+            //Start play time timer
             playerTime += Time.deltaTime;
         }
         else
         {
-            //Hide this when player is dead
+            //Record the total play time
             finalTime = playerTime;
-            //Destroy(this);
         }
 
-        //Increase the enemy stats
+        //Increase the enemy stats every 60s
         if (Mathf.Floor(playerTime) % 60 == 0 && Mathf.Floor(playerTime) != 0)
         {
-            //increases the maximum enemy size and the spawn frequency
+            //increases the maximum enemy sizecy
             spawnSize = initialSpawnSize + 1 * Mathf.Floor(playerTime / 60);
         }
 
+        //Reset all the stats
         if ("titleScreen" == SceneManager.GetActiveScene().name)
         {
             resetStats();

@@ -12,20 +12,10 @@ public class cameraFollow : MonoBehaviour
     //Player's position
     public Transform player;
 
-    //A dark background to emphasize the text
-    public GameObject deathBackground;
-
     private void Awake()
     {
+        //Assign variables
         player = GameObject.Find("Player").transform;
-        //deathBackground = GameObject.Find("deathBackground");
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //Disable the background at first
-        //deathBackground.SetActive(false);
     }
 
     // Update is called once per frame
@@ -37,14 +27,5 @@ public class cameraFollow : MonoBehaviour
         smoothPos.x = Mathf.Clamp(smoothPos.x,-7f, 7f);
         smoothPos.y = Mathf.Clamp(smoothPos.y, -3f, 19f);
         transform.position = new Vector3(smoothPos.x, smoothPos.y + yPos, -15.0f);
-    }
-
-    private void Update()
-    {
-        //Enable the background when player is dead
-        //if (gameManager.Instance.death == true)
-        //{
-            //deathBackground.SetActive(true);
-        //}
     }
 }

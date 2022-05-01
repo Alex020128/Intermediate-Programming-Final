@@ -14,6 +14,7 @@ public class scoreUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Assign variables
         score = GetComponent<TMP_Text>();
     }
 
@@ -31,6 +32,7 @@ public class scoreUI : MonoBehaviour
         }
         else
         {
+            //Hide this when the game ends
             score.enabled = false;
         }
 
